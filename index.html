@@ -397,7 +397,8 @@ $('again').addEventListener('click',function(){
 
 /* ---------- menú de padres: mantener pulsado el título 3 s ---------- */
 var hT=null,hS=0,hR=null;
-function hStart(e){e.preventDefault();hS=Date.now();cancelAnimationFrame(hR);(function step(){var p=(Date.now()-hS)/3000;$('hold').style.width=Math.min(100,p*100)+'%';
+var tp=[];
+function hStart(e){e.preventDefault();hS=Date.now();tp.push(hS);tp=tp.filter(function(t){return hS-t<10000});if(tp.length>=10){tp=[];st.last=null;save();render();ac();tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);toast('🔓 ¡TRUCO ACTIVADO!<br>PUEDES PONER 1 X MÁS')}cancelAnimationFrame(hR);(function step(){var p=(Date.now()-hS)/3000;$('hold').style.width=Math.min(100,p*100)+'%';
   if(p>=1){hEnd();gate()}else hR=requestAnimationFrame(step)})()}
 function hEnd(){cancelAnimationFrame(hR);$('hold').style.width='0'}
 var ti=$('title');
