@@ -198,7 +198,7 @@ body{position:fixed;inset:0}
 <div class="app" id="app">
   <div class="side">
     <div class="title" id="title">OBJETIVO<div class="hold" id="hold"></div></div>
-    <div class="season"><span id="season">TEMPORADA 1</span></div>
+    <div class="season"><span id="season">REGALO 1</span></div>
     <div class="prog">
       <div class="progTop"><span>MIS X</span><span class="count" id="count"><b>0</b>/20</span></div>
       <div class="bar"><div class="fill" id="fill"></div></div>
@@ -226,7 +226,7 @@ body{position:fixed;inset:0}
     <div class="wSub">¡20 DÍAS ESTUDIANDO! ERES UN CRACK 🏆</div>
     <div class="wPrize" id="wPrize">¡TU REGALO!</div>
   </div>
-  <button class="btn" id="again">▶ SIGUIENTE TEMPORADA</button>
+  <button class="btn" id="again">▶ SIGUIENTE REGALO</button>
 </div>
 
 <div class="modal" id="modal"><div class="card" id="card"></div></div>
@@ -321,7 +321,7 @@ function render(freshIdx){
     h+='<div class="'+cls+'" data-i="'+i+'" style="--i:'+(freshIdx===undefined?i:0)+'">'+inner+'</div>';
   }
   g.innerHTML=h;
-  $('season').textContent='TEMPORADA '+st.season;
+  $('season').textContent='REGALO '+st.season;
   $('count').innerHTML='<b>'+n+'</b>/'+TOTAL;
   $('fill').style.width=(n/TOTAL*100)+'%';
   $('prize').innerHTML=st.prize?('🎁 REGALO: <b>'+esc(st.prize)+'</b>'):('🎁 ¡CONSIGUE 20 X Y GANA TU <b>REGALO</b>!');
@@ -392,7 +392,7 @@ $('chest').addEventListener('click',function(){
 $('again').addEventListener('click',function(){
   st.wins.push({season:st.season,date:today(),prize:st.prize}); st.season++; st.marks=[]; save();
   rain=false; $('win').classList.remove('on','open'); render(); tone(523,0,.1);tone(784,.1,.2);
-  toast('🚀 ¡TEMPORADA '+st.season+'!<br>A POR OTRAS 20 X');
+  toast('🚀 ¡REGALO '+st.season+'!<br>A POR OTRAS 20 X');
 });
 
 /* ---------- menú de padres: mantener pulsado el título 3 s ---------- */
@@ -410,7 +410,7 @@ function trick(){
   $('card').innerHTML='<h2>🕹️ TRUCO SECRETO</h2><p>¿Qué quieres hacer?</p>'+
     '<button class="btn" id="t1">➕ PONER 1 X MÁS HOY</button>'+
     '<button class="btn b3" id="t2">🗑️ BORRAR TODAS LAS X</button>'+
-    '<button class="btn b3" id="t3">💥 BORRAR X Y TEMPORADAS</button>'+
+    '<button class="btn b3" id="t3">💥 BORRAR X Y REGALOS</button>'+
     '<button class="btn b2" id="cl">CERRAR</button>';
   $('modal').classList.add('on');
   $('cl').onclick=close;
@@ -429,7 +429,7 @@ function gate(){
 function close(){$('modal').classList.remove('on')}
 function menu(){
   var n=st.marks.length;
-  $('card').innerHTML='<h2>⚙️ AJUSTES</h2><p>Temporada '+st.season+' · '+n+' de 20 X · Regalos conseguidos: '+st.wins.length+'</p>'+
+  $('card').innerHTML='<h2>⚙️ AJUSTES</h2><p>Regalo '+st.season+' · '+n+' de 20 X · Regalos conseguidos: '+st.wins.length+'</p>'+
     '<p>Nombre del regalo (se ve en la app y al abrir el cofre):</p><input id="pz" type="text" maxlength="40" placeholder="Ej.: paVos, un juguete..." value="'+esc(st.prize)+'">'+
     '<button class="btn" id="sv">💾 GUARDAR REGALO</button>'+
     '<button class="btn b2" id="ex">➕ PONER UNA X (día olvidado)</button>'+
