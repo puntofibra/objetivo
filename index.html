@@ -398,13 +398,27 @@ $('again').addEventListener('click',function(){
 /* ---------- menú de padres: mantener pulsado el título 3 s ---------- */
 var hT=null,hS=0,hR=null;
 var tp=[];
-function hStart(e){e.preventDefault();hS=Date.now();tp.push(hS);tp=tp.filter(function(t){return hS-t<10000});if(tp.length>=10){tp=[];st.last=null;save();render();ac();tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);toast('🔓 ¡TRUCO ACTIVADO!<br>PUEDES PONER 1 X MÁS')}cancelAnimationFrame(hR);(function step(){var p=(Date.now()-hS)/3000;$('hold').style.width=Math.min(100,p*100)+'%';
+function hStart(e){e.preventDefault();hS=Date.now();tp.push(hS);tp=tp.filter(function(t){return hS-t<10000});if(tp.length>=10){tp=[];hEnd();trick();return}cancelAnimationFrame(hR);(function step(){var p=(Date.now()-hS)/3000;$('hold').style.width=Math.min(100,p*100)+'%';
   if(p>=1){hEnd();gate()}else hR=requestAnimationFrame(step)})()}
 function hEnd(){cancelAnimationFrame(hR);$('hold').style.width='0'}
 var ti=$('title');
 ti.addEventListener('pointerdown',hStart);ti.addEventListener('pointerup',hEnd);ti.addEventListener('pointerleave',hEnd);ti.addEventListener('pointercancel',hEnd);
 ti.addEventListener('contextmenu',function(e){e.preventDefault()});
 
+function trick(){
+  ac();tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);
+  $('card').innerHTML='<h2>🕹️ TRUCO SECRETO</h2><p>¿Qué quieres hacer?</p>'+
+    '<button class="btn" id="t1">➕ PONER 1 X MÁS HOY</button>'+
+    '<button class="btn b3" id="t2">🗑️ BORRAR TODAS LAS X</button>'+
+    '<button class="btn b3" id="t3">💥 BORRAR X Y TEMPORADAS</button>'+
+    '<button class="btn b2" id="cl">CERRAR</button>';
+  $('modal').classList.add('on');
+  $('cl').onclick=close;
+  function two(id,fn){var arm=false;$(id).onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}fn();save();render();close()}}
+  two('t1',function(){st.last=null;toast('🔓 YA PUEDES PONER 1 X MÁS')});
+  two('t2',function(){st.marks=[];st.last=null;toast('🗑️ X BORRADAS')});
+  two('t3',function(){st.marks=[];st.last=null;st.season=1;st.wins=[];toast('💥 TODO A CERO')});
+}
 function gate(){
   var a=6+((Math.random()*4)|0), b=6+((Math.random()*4)|0);
   $('card').innerHTML='<h2>🔐 SOLO PAPÁS</h2><p>Para entrar, ¿cuánto es '+a+' × '+b+'?</p><input id="ans" type="number" inputmode="numeric" autocomplete="off">'+
