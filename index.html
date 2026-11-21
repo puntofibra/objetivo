@@ -419,6 +419,7 @@ function menu(){
     '<button class="btn" id="sv">💾 GUARDAR REGALO</button>'+
     '<button class="btn b2" id="ex">➕ PONER UNA X (día olvidado)</button>'+
     '<button class="btn b2" id="un">↩️ QUITAR LA ÚLTIMA X</button>'+
+    '<input id="nx" type="number" inputmode="numeric" min="0" max="19" placeholder="Nº de X ya hechas (0-19)"><button class="btn b2" id="sn">✏️ PONER ESE NÚMERO DE X</button>'+
     '<button class="btn b2" id="td">🔓 PERMITIR OTRA X HOY</button>'+
     '<button class="btn b3" id="rs">🗑️ REINICIAR TODO</button>'+
     '<button class="btn b2" id="cl">CERRAR</button>';
@@ -427,6 +428,7 @@ function menu(){
   $('ex').onclick=function(){st.prize=$('pz').value.trim();close();if(st.marks.length<TOTAL)mark(true)};
   $('un').onclick=function(){if(!st.marks.length)return;var m=st.marks.pop();if(m!=='extra'){st.last=null;for(var i=st.marks.length-1;i>=0;i--){if(st.marks[i]!=='extra'){st.last=st.marks[i];break}}}save();render();menu()};
   $('td').onclick=function(){st.last=null;save();render();close();toast('🔓 HOY SE PUEDE MARCAR OTRA X')};
+  $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(19,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();close();toast('✅ '+v+' X PUESTAS')};
   var arm=false;
   $('rs').onclick=function(){if(!arm){arm=true;this.textContent='⚠️ PULSA OTRA VEZ PARA BORRAR TODO';return}st={season:1,marks:[],last:null,prize:st.prize,wins:[]};save();render();close()};
 }
