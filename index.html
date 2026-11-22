@@ -588,28 +588,34 @@ function countdown(label,click,done){
   var f=function(){var s=Math.ceil((adm.end-Date.now())/1000);if(s<=0){clearTm();chip.className='chip';done();return}chip.textContent=label+' · '+s+' s'};
   f();adm.tm=setInterval(f,200);
 }
-function lock(msg){clearTm();adm.on=false;adm.x=false;chip.className='chip';if(msg){toast(msg);sNo()}}
+function lock(msg){clearTm();adm.on=false;adm.x=false;adm.k=null;chip.className='chip';if(msg){toast(msg);sNo()}}
 function openAdmin(){clearTm();chip.className='chip';adm.on=true;adm.x=false;menu()}
 function leave(){close();if(!adm.on)return;countdown('🔑 ADMIN · TOCA PARA VOLVER',openAdmin,function(){lock('🔒 SESIÓN DE ADMIN CERRADA')})}
 function xStart(){close();adm.x=true;render();countdown('✖️ PON LAS X QUE QUIERAS',null,function(){lock('🔒 TIEMPO AGOTADO<br>ADMIN CERRADO');render()})}
 function xEnd(silent){if(adm.x)lock(silent?'':'🔒 ADMIN CERRADO')}
 
-function keys(){try{return JSON.parse(localStorage.getItem('objetivo_keys')||'[]')}catch(e){return[]}}
+/* ---------- servidor (Apps Script + Sheet "objetivo") ---------- */
+var API='https://script.google.com/macros/s/AKfycbxP3Q7A_amFbm4KICeCXSWeVW2uHNkUxZUNWW5NTjgZ66AxQeflsWxRoeFDt2KrX6y_/exec';
+var DEV='';try{DEV=localStorage.getItem('objetivo_dev')||'';if(!DEV){DEV='D-'+Math.random().toString(36).slice(2,8).toUpperCase();localStorage.setItem('objetivo_dev',DEV)}}catch(e){}
+var UA=navigator.userAgent, MODEL=/Android/.test(UA)?'Android':/iPhone|iPad/.test(UA)?'iPhone/iPad':/Windows/.test(UA)?'Windows':/Mac/.test(UA)?'Mac':'Otro';
+try{navigator.userAgentData.getHighEntropyValues(['model','platform','platformVersion']).then(function(v){var t=[v.model,v.platform,v.platformVersion].filter(Boolean).join(' ');if(t)MODEL=t})}catch(e){}
+function api(o){return fetch(API,{method:'POST',body:JSON.stringify(o)}).then(function(r){return r.json()})}
+function busyKey(){show('<h2>🔑 COMPROBANDO LLAVE…</h2><div class="spin"></div>')}
+function badKey(msg){sNo();show('<h2>⛔ LLAVE NO VÁLIDA</h2><p>'+(msg||'Esa no es la llave del administrador.')+'</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=close}
+function netErr(){sNo();show('<h2>📡 SIN CONEXIÓN</h2><p>No se ha podido comprobar la llave. Revisa internet e inténtalo otra vez.</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=close}
 function hashKey(sn){var s='objetivo|'+String(sn).replace(/[^0-9a-f]/gi,'').toUpperCase();
   return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('')})}
 function stopScan(){if(scanCtl){try{scanCtl.abort()}catch(e){}scanCtl=null}if(peer){try{peer.destroy()}catch(e){}peer=null}}
 function loadJs(u){return new Promise(function(ok,ko){var s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=ko;document.head.appendChild(s)})}
 function gotKey(h,mode){
-  stopScan();var k=keys();
-  if(mode==='add'){if(k.indexOf(h)<0){k.push(h);localStorage.setItem('objetivo_keys',JSON.stringify(k))}openAdmin();toast('🔑 LLAVE AÑADIDA');return}
-  if(!k.length){k.push(h);localStorage.setItem('objetivo_keys',JSON.stringify(k));toast('🔑 LLAVE GUARDADA<br>DESDE AHORA SOLO VALE ESTA')}
-  else if(k.indexOf(h)<0){sNo();show('<h2>⛔ LLAVE NO VÁLIDA</h2><p>Esta no es la llave guardada en este dispositivo.</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=close;return}
-  tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);openAdmin();
+  stopScan();busyKey();
+  if(mode==='add'){api({a:'addKey',k:adm.k,k2:h}).then(function(r){if(!adm.on){close();return}openAdmin();toast(r.ok?'🔑 LLAVE AÑADIDA':'⚠️ '+(r.error||'NO SE HA PODIDO AÑADIR'))}).catch(netErr);return}
+  api({a:'key',k:h}).then(function(r){if(!r.ok){badKey(r.error);return}adm.k=h;tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);openAdmin()}).catch(netErr);
 }
 var NFCUI='<div class="nfc" id="nfc"><span></span><span></span><span></span><i>📶</i></div><p id="kst">Pulsa el botón y acerca tu llave NFC a la parte de atrás del móvil.</p><button class="btn" id="rd">📲 LEER LLAVE NFC</button><button class="btn b2" id="cl">CANCELAR</button>';
 function askKey(mode){
   ac();
-  var first=!keys().length&&mode!=='add', cancel=function(){stopScan();if(mode==='add')openAdmin();else close()};
+  var first=false, cancel=function(){stopScan();if(mode==='add')openAdmin();else close()};
   var head='<h2>🔑 '+(mode==='add'?'AÑADIR OTRA LLAVE':'MODO ADMIN')+'</h2>'+(first?'<p>Todavía no hay ninguna llave guardada en este dispositivo. <b>La primera llave que pases será la llave de admin.</b></p>':'');
   if('NDEFReader' in window){
     show(head+NFCUI);$('cl').onclick=cancel;
@@ -668,10 +674,11 @@ function askX(){
   ac();var num=st.marks.length+1;
   var bye=function(){stopX();close()};
   var ok=function(h){
-    var k=keys();
-    if(!k.length){k.push(h);localStorage.setItem('objetivo_keys',JSON.stringify(k))}
-    else if(k.indexOf(h)<0){stopX();sNo();show('<h2>⛔ LLAVE NO VÁLIDA</h2><p>Esa no es la llave del administrador. La X no se ha puesto.</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=close;return}
-    bye();mark(false);
+    bye();busyKey();
+    api({a:'x',k:h,dev:DEV,m:MODEL+' · '+screen.width+'x'+screen.height+(D?' · DEMO '+D.brand:''),n:num,season:st.season}).then(function(r){
+      if(!r.ok){badKey((r.error||'Esa no es la llave del administrador.')+' No se ha validado.');return}
+      close();mark(false);
+    }).catch(netErr);
   };
   if('NDEFReader' in window){
     show('<h2>'+L.valid(num)+'</h2><div class="nfc" id="nfc"><span></span><span></span><span></span><i>📶</i></div><div class="cd" id="cd">5</div><p id="kst">Activando el lector…</p><p>El administrador tiene <b>5 segundos</b> para pasar su llave.</p><button class="btn b2" id="cl">CANCELAR</button>');
@@ -710,7 +717,7 @@ function menu(){
     '<button class="btn" id="dm">🎬 DEMOS PARA NEGOCIOS</button>'+
     '<button class="btn b2" id="ak">🔑 AÑADIR OTRA LLAVE</button>'+
     '<button class="btn b2" id="cl">CERRAR</button>');
-  $('cl').onclick=leave;$('dm').onclick=demosView;$('gf').onclick=giftsView;$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
+  $('cl').onclick=leave;$('dm').onclick=demosView;$('gf').onclick=function(){giftsView();loadGifts().then(function(){if(document.querySelector('.gslots'))giftsView()})};$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
   $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(TOTAL-1,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();menu()};
   $('un').onclick=function(){if(!st.marks.length)return;var m=st.marks.pop();if(m!=='extra'){st.last=null;for(var i=st.marks.length-1;i>=0;i--){if(st.marks[i]!=='extra'){st.last=st.marks[i];break}}}save();render();menu()};
   two('t2',function(){st.marks=[];st.last=null});
@@ -719,12 +726,10 @@ function menu(){
 
 /* ---------- los 20 regalos ocultos ---------- */
 var GIFTS={};
-function loadGifts(){return fetch('regalos.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{}}).then(function(j){GIFTS=j||{}}).catch(function(){})}
+function loadGifts(){return fetch('regalos.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{}}).then(function(j){j=j||{};for(var k in GIFTS)if(GIFTS[k]&&GIFTS[k].d&&j[k])j[k].d=GIFTS[k].d;GIFTS=j}).catch(function(){})}
 function getGift(n){
   if(D)return null;
-  var l=null;try{l=JSON.parse(localStorage.getItem('objetivo_gift_'+n)||'null')}catch(e){}
-  if(l&&l.img)return l;
-  var g=GIFTS[n];return g&&g.f?{name:g.name||'',img:g.f+'?v='+g.v}:null;
+  var g=GIFTS[n];return g&&g.f?{name:g.name||'',img:g.d||(g.f+'?v='+g.v)}:null;
 }
 function giftsView(){
   var h='<h2>🎁 LOS 20 REGALOS OCULTOS</h2><p>Toca un número para ponerle su regalo. Nadie los ve hasta que se abre el cofre de ese regalo.</p><div class="gslots">';
@@ -734,7 +739,7 @@ function giftsView(){
   var bs=document.querySelectorAll('.gslot');for(var j=0;j<bs.length;j++)bs[j].onclick=function(){giftEdit(+this.getAttribute('data-n'))};
 }
 function giftEdit(n){
-  var g=getGift(n)||{name:'',img:''}, cur=g.img;
+  var g=getGift(n)||{name:'',img:''}, cur=g.img, nu=null;
   show('<h2>🎁 REGALO Nº '+n+'</h2>'+
     '<div class="gprev" id="gprev">'+(cur?'<img alt="" src="'+cur+'">':'<span>SIN IMAGEN</span>')+'</div>'+
     '<div class="spec"><b>📐 CÓMO TIENE QUE SER LA IMAGEN</b><br>• Formato <b>PNG sin fondo</b> (transparente)<br>• Cuadrada, de <b>600 × 600 px</b> (mínimo 300 × 300 px)<br>• El regalo centrado y ocupando casi toda la imagen<br>• Sin brillos, sombras ni nada fuera del contorno</div>'+
@@ -757,7 +762,7 @@ function giftEdit(n){
         var c=document.createElement('canvas');c.width=cw;c.height=ch;var x=c.getContext('2d');x.drawImage(im,0,0,cw,ch);
         var tr=false;try{var d=x.getImageData(0,0,cw,ch).data,pts=[[0,0],[cw-1,0],[0,ch-1],[cw-1,ch-1]];for(var i=0;i<4;i++){if(d[(pts[i][1]*cw+pts[i][0])*4+3]<20)tr=true}}catch(e){}
         var out=c.toDataURL('image/webp',.88);if(out.indexOf('data:image/webp')!==0)out=c.toDataURL('image/png');
-        cur=out;
+        cur=out;nu=out;
         var png=f.type==='image/png', sq=Math.abs(w-h)<=Math.max(w,h)*.1, big=Math.min(w,h)>=300;
         pv.innerHTML='<img class="in" alt="" src="'+out+'">';
         gs.innerHTML='Tu imagen mide <b>'+w+' × '+h+' px</b><br>'+(png?'✅ Es PNG':'⚠️ No es PNG')+' · '+(tr?'✅ Sin fondo':'⚠️ Parece que tiene fondo')+' · '+(sq?'✅ Cuadrada':'⚠️ No es cuadrada')+' · '+(big?'✅ Buen tamaño':'⚠️ Muy pequeña (mínimo 300 px)');
@@ -768,15 +773,25 @@ function giftEdit(n){
     rd.readAsDataURL(f);
   };
   $('gsave').onclick=function(){
-    if(!cur){$('gst').textContent='⚠️ Primero elige una imagen.';sNo();return}
-    try{localStorage.setItem('objetivo_gift_'+n,JSON.stringify({name:$('gname').value.trim(),img:cur}));giftsView();toast('🎁 REGALO '+n+' GUARDADO')}
-    catch(e){$('gst').textContent='⚠️ No queda espacio en este dispositivo para más imágenes.';sNo()}
+    var b=this,gs=$('gst');
+    if(!cur){gs.textContent='⚠️ Primero elige una imagen.';sNo();return}
+    b.disabled=true;b.textContent='⏳ GUARDANDO EN EL SERVIDOR…';
+    api({a:'gift',k:adm.k,n:n,name:$('gname').value.trim(),img:nu||undefined}).then(function(r){
+      if(!r.ok){b.disabled=false;b.textContent='💾 GUARDAR REGALO';gs.textContent='⚠️ '+(r.error||'No se ha podido guardar.');sNo();return}
+      var j=r.gifts||{};for(var k in GIFTS)if(GIFTS[k]&&GIFTS[k].d&&j[k])j[k].d=GIFTS[k].d;if(nu&&j[n])j[n].d=nu;GIFTS=j;
+      giftsView();toast('🎁 REGALO '+n+' GUARDADO');
+    }).catch(function(){b.disabled=false;b.textContent='💾 GUARDAR REGALO';gs.textContent='⚠️ Sin conexión. Inténtalo otra vez.';sNo()});
   };
-  var arm=false;$('gdel').onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}localStorage.removeItem('objetivo_gift_'+n);giftsView()};
+  var arm=false;$('gdel').onclick=function(){
+    var b=this;if(!arm){arm=true;b.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}
+    b.disabled=true;b.textContent='⏳ QUITANDO…';
+    api({a:'delGift',k:adm.k,n:n}).then(function(r){if(!r.ok){b.disabled=false;$('gst').textContent='⚠️ '+(r.error||'No se ha podido quitar.');return}GIFTS=r.gifts||{};giftsView()}).catch(function(){b.disabled=false;$('gst').textContent='⚠️ Sin conexión.'});
+  };
 }
 var LL=(location.search.match(/[?&]llave=([0-9a-f]{24})/)||[])[1];
 if(LL)setTimeout(function(){reader(LL)},0);
 loadGifts();
+try{for(var gi=1;gi<=20;gi++)localStorage.removeItem('objetivo_gift_'+gi);localStorage.removeItem('objetivo_keys')}catch(e){}
 
 /* ---------- instalar (PWA) ---------- */
 var dp=null, inst=$('inst');
