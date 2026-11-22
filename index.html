@@ -229,6 +229,16 @@ body{position:fixed;inset:0}
 
 .cd{font-size:72px;line-height:1;color:var(--yel);-webkit-text-stroke:3px #1a0850;paint-order:stroke fill;text-shadow:0 5px 0 #1a0850}
 
+/* ---------- cofre con fotogramas ---------- */
+.chest{width:min(64vw,290px);aspect-ratio:0.7500;margin-top:0}
+.chest .cLid,.chest .cBody{display:none}
+.cSpr{position:absolute;inset:0;background:url("img/Secuencia%20de%20cofres%20del%20tesoro%20animados.png") 0 0/400% 100% no-repeat;z-index:2;filter:drop-shadow(0 10px 0 rgba(0,0,0,.3))}
+.win.open .cSpr{animation:cOpen .55s steps(1,end) forwards,cPop .55s ease}
+@keyframes cOpen{0%{background-position:0 0}22%{background-position:33.333% 0}48%{background-position:66.667% 0}74%,100%{background-position:100% 0}}
+@keyframes cPop{0%{transform:scale(1)}40%{transform:scale(1.12,.92)}70%{transform:scale(.96,1.08)}100%{transform:scale(1)}}
+.chest .cGlow{top:56%}
+.chest .gift{top:56%}
+
 /* ---------- DEMOS PARA NEGOCIOS (tarjeta de fidelidad) ---------- */
 .demo-comida{--yel:#ffd400;--yel2:#ff9d00;--ink:#1a0a00;--c1:#e31b23;--c2:#8f0d12;--bgA:#ff7a1f;--bgB:#c4161c;--bgC:#4a0607}
 .demo-pelu{--yel:#ffffff;--yel2:#c9ced6;--ink:#06060c;--c1:#e10600;--c2:#0b3fbf;--bgA:#2f4a9a;--bgB:#141a33;--bgC:#050509}
@@ -306,6 +316,7 @@ body{position:fixed;inset:0}
   <div class="chest" id="chest">
     <div class="cGlow"></div>
     <div class="gift" id="giftBox">🎁</div>
+    <div class="cSpr"></div>
     <div class="cLid"></div>
     <div class="cBody"></div>
   </div>
@@ -768,7 +779,7 @@ function giftEdit(n){
 }
 var LL=(location.search.match(/[?&]llave=([0-9a-f]{24})/)||[])[1];
 if(LL)setTimeout(function(){reader(LL)},0);
-loadGifts();
+loadGifts();(new Image()).src='img/Secuencia%20de%20cofres%20del%20tesoro%20animados.png';
 try{for(var gi=1;gi<=20;gi++)localStorage.removeItem('objetivo_gift_'+gi);localStorage.removeItem('objetivo_keys')}catch(e){}
 
 /* ---------- instalar (PWA) ---------- */
