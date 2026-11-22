@@ -217,6 +217,16 @@ body{position:fixed;inset:0}
 .win.open .gift.pic img{animation:reveal 2.3s ease .25s both}
 @keyframes reveal{0%{filter:brightness(0);transform:rotateY(0)}55%{filter:brightness(0) drop-shadow(0 0 16px #ffe600);transform:rotateY(1080deg)}63%{filter:brightness(5);transform:rotateY(1080deg) scale(1.25)}100%{filter:brightness(1) drop-shadow(0 0 22px rgba(255,230,0,.9));transform:rotateY(1080deg) scale(1)}}
 
+.tile.flipA{animation:flipA .7s ease-in-out}
+.tile.flipB{animation:flipB .7s ease-in-out}
+@keyframes flipA{0%{transform:perspective(500px) rotateY(0)}49.9%{transform:perspective(500px) rotateY(90deg) scale(1.25)}50%{transform:perspective(500px) rotateY(-90deg) scale(1.25)}100%{transform:perspective(500px) rotateY(0)}}
+@keyframes flipB{0%{transform:perspective(500px) rotateY(0)}49.9%{transform:perspective(500px) rotateY(-90deg) scale(1.25)}50%{transform:perspective(500px) rotateY(90deg) scale(1.25)}100%{transform:perspective(500px) rotateY(0)}}
+.tile.peek{background:linear-gradient(160deg,#fff7c2,#ffd23d);border-color:var(--yel);border-style:solid;box-shadow:0 0 28px var(--yel),0 5px 0 rgba(0,0,0,.3);z-index:4}
+.tile .pk{position:absolute;left:6%;top:4%;width:88%;height:84%;object-fit:contain;animation:wob 1.6s ease-in-out infinite}
+.tile.peek .n{color:#1a0850;filter:none}
+.tile .pkbar{position:absolute;left:8%;right:8%;bottom:4%;height:6%;border-radius:9px;background:#1a0850;transform-origin:left;animation:pkbar 5s linear forwards}
+@keyframes pkbar{to{transform:scaleX(0)}}
+
 /* ---------- HORIZONTAL (PC / tablet) ---------- */
 @media (orientation:landscape) and (min-width:700px){
   .app{flex-direction:row;justify-content:center;gap:4vw;padding:20px 4vw}
@@ -388,11 +398,26 @@ $('grid').addEventListener('click',function(e){
   var t=e.target.closest('.tile'); if(!t||busy)return; ac();
   var i=+t.getAttribute('data-i'), n=st.marks.length;
   if(i<n){ t.classList.remove('slam');void t.offsetWidth;t.classList.add('slam'); tone(500+i*40,0,.08,'square',.1); return }
-  if(i>n){ nope(t,'🔒 ¡PRIMERO LA CASILLA '+(n+1)+'!'); return }
+  if(i>n){ if(i===TOTAL-1) peek(t,n); else nope(t,'🔒 ¡PRIMERO LA CASILLA '+(n+1)+'!'); return }
   if(adm.x){ mark(true); return }
   if(doneToday()){ nope(t,'⏳ ¡HOY YA TIENES TU X!<br>VUELVE MAÑANA'); return }
   mark(false);
 });
+var peekT=null;
+function peek(t,n){
+  if(peekT)return;
+  var left=TOTAL-n, old=t.innerHTML;
+  nope(t,'🎁 ¡TE '+(left===1?'FALTA 1 X':'FALTAN '+left+' X')+' PARA CONSEGUIRLO!');
+  peekT=setTimeout(function(){
+    var g=getGift(st.season);
+    t.classList.remove('no','flipA','flipB');void t.offsetWidth;t.classList.add('flipA');tone(300,0,.3,'sine',.2,900);
+    setTimeout(function(){t.classList.add('peek');t.innerHTML=(g&&g.img?'<img class="pk" alt="" src="'+g.img+'">':'<span class="n">❓</span>')+'<i class="pkbar"></i>';
+      var r=t.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,26,8,false);tone(880,0,.1);tone(1320,.1,.2)},350);
+    setTimeout(function(){t.classList.remove('flipA');void t.offsetWidth;t.classList.add('flipB');tone(900,0,.3,'sine',.2,300);
+      setTimeout(function(){t.classList.remove('peek');t.innerHTML=old},350);
+      setTimeout(function(){peekT=null},750)},5350);
+  },450);
+}
 function nope(t,txt){t.classList.remove('no');void t.offsetWidth;t.classList.add('no');sNo();toast(txt);if(navigator.vibrate)navigator.vibrate(60)}
 function toast(txt){var o=document.querySelector('.toast');if(o)o.remove();var d=document.createElement('div');d.className='toast';d.innerHTML=txt;document.body.appendChild(d);setTimeout(function(){d.remove()},2300)}
 function mark(extra){
