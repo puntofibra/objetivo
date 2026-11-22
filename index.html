@@ -227,6 +227,8 @@ body{position:fixed;inset:0}
 .tile .pkbar{position:absolute;left:8%;right:8%;bottom:4%;height:6%;border-radius:9px;background:#1a0850;transform-origin:left;animation:pkbar 5s linear forwards}
 @keyframes pkbar{to{transform:scaleX(0)}}
 
+.cd{font-size:72px;line-height:1;color:var(--yel);-webkit-text-stroke:3px #1a0850;paint-order:stroke fill;text-shadow:0 5px 0 #1a0850}
+
 /* ---------- HORIZONTAL (PC / tablet) ---------- */
 @media (orientation:landscape) and (min-width:700px){
   .app{flex-direction:row;justify-content:center;gap:4vw;padding:20px 4vw}
@@ -295,7 +297,7 @@ function load(){
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
 function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
-function doneToday(){return st.last===today()}
+function doneToday(){return false}
 
 /* ---------- chispas de fondo ---------- */
 for(var i=0;i<16;i++){var s=document.createElement('div');s.className='spark';s.style.left=(Math.random()*100)+'%';
@@ -385,7 +387,7 @@ function msg(){
     $('msgIn').innerHTML='✅ ¡X DE HOY CONSEGUIDA!<small>PRÓXIMA X EN '+t+' · TE FALTAN '+left+'</small>';
   }else{
     m.className='msg';
-    $('msgIn').innerHTML=(n===TOTAL-1?'🔥 ¡ÚLTIMA X! ¡A POR EL REGALO!':'👆 ¿HAS ESTUDIADO HOY? ¡TOCA TU CASILLA!')+'<small>'+(n===0?'20 DÍAS = 1 REGALO':'TE FALTAN '+left+' X')+'</small>';
+    $('msgIn').innerHTML=(n===TOTAL-1?'🔥 ¡ÚLTIMA X! ¡A POR EL REGALO!':'👆 ¿HAS ESTUDIADO? ¡TOCA TU CASILLA!')+'<small>'+(n===0?'20 DÍAS = 1 REGALO':'TE FALTAN '+left+' X')+'</small>';
   }
 }
 var lastDay=today();
@@ -401,7 +403,7 @@ $('grid').addEventListener('click',function(e){
   if(i>n){ if(i===TOTAL-1) peek(t,n); else nope(t,'🔒 ¡PRIMERO LA CASILLA '+(n+1)+'!'); return }
   if(adm.x){ mark(true); return }
   if(doneToday()){ nope(t,'⏳ ¡HOY YA TIENES TU X!<br>VUELVE MAÑANA'); return }
-  mark(false);
+  askX();
 });
 var peekT=null;
 function peek(t,n){
@@ -508,18 +510,18 @@ function askKey(mode){
     $('cl').onclick=cancel;link(function(h){gotKey(h,mode)});
   }
 }
-function scan(cb){
+function scan(cb,ready){
   var ks=$('kst'), n=$('nfc');
   try{
     var r=new NDEFReader();scanCtl=new AbortController();
-    r.scan({signal:scanCtl.signal}).then(function(){
+    r.scan({signal:scanCtl.signal}).then(function(){if(ready)ready();
       if(n)n.classList.add('on');if(ks)ks.textContent='Acerca la llave ahora…';var b=$('rd');if(b)b.style.display='none';
       r.onreading=function(ev){if(!ev.serialNumber){if(ks)ks.textContent='Esta llave no da número de serie. Prueba otra vez.';return}if(navigator.vibrate)navigator.vibrate(80);hashKey(ev.serialNumber).then(cb)};
       r.onreadingerror=function(){if(ks)ks.textContent='No se ha podido leer. Acércala otra vez.'};
     }).catch(function(){if(ks)ks.textContent='No se ha podido activar el NFC: comprueba que está encendido y da permiso.'});
   }catch(e){if(ks)ks.textContent='Este navegador no permite leer NFC.'}
 }
-function link(cb){
+function link(cb,wt){
   var ks=$('kst');
   Promise.all([window.Peer?0:loadJs(PEERJS),window.qrcode?0:loadJs(QRJS)]).then(function(){
     var a=new Uint8Array(12);crypto.getRandomValues(a);var id=Array.prototype.map.call(a,function(x){return('0'+x.toString(16)).slice(-2)}).join('');
@@ -527,7 +529,7 @@ function link(cb){
     peer.on('open',function(){
       var q=qrcode(0,'M');q.addData(location.origin+location.pathname+'?llave='+id);q.make();
       var box=$('qr');if(box)box.innerHTML=q.createSvgTag(5,10);
-      if(ks)ks.textContent='Esperando a que pases la llave por el móvil…';
+      if(ks)ks.textContent=wt||'Esperando a que pases la llave por el móvil…';
     });
     peer.on('connection',function(c){c.on('data',function(d){if(d&&d.k)cb(String(d.k))})});
     peer.on('error',function(){if(ks)ks.textContent='No se ha podido crear el enlace. Comprueba internet y vuelve a intentarlo.'});
@@ -548,6 +550,34 @@ function reader(id){
       peer.on('error',function(){if(ks)ks.textContent='No se ha podido enviar. Vuelve a escanear el QR.'});
     }).catch(function(){if(ks)ks.textContent='No se ha podido enviar. Comprueba internet.'});
   })};
+}
+
+/* ---------- poner una X: la valida la llave del administrador ---------- */
+var xTm=null;
+function stopX(){if(xTm){clearInterval(xTm);xTm=null}stopScan()}
+function askX(){
+  ac();var num=st.marks.length+1;
+  var bye=function(){stopX();close()};
+  var ok=function(h){
+    var k=keys();
+    if(!k.length){k.push(h);localStorage.setItem('objetivo_keys',JSON.stringify(k))}
+    else if(k.indexOf(h)<0){stopX();sNo();show('<h2>⛔ LLAVE NO VÁLIDA</h2><p>Esa no es la llave del administrador. La X no se ha puesto.</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=close;return}
+    bye();mark(false);
+  };
+  if('NDEFReader' in window){
+    show('<h2>✖️ VALIDAR LA X Nº '+num+'</h2><div class="nfc" id="nfc"><span></span><span></span><span></span><i>📶</i></div><div class="cd" id="cd">5</div><p id="kst">Activando el lector…</p><p>El administrador tiene <b>5 segundos</b> para pasar su llave.</p><button class="btn b2" id="cl">CANCELAR</button>');
+    $('cl').onclick=bye;
+    scan(ok,function(){
+      var ks=$('kst');if(ks)ks.textContent='Acerca ahora la llave del administrador a la parte de atrás del móvil.';
+      var end=Date.now()+5000;if(xTm)clearInterval(xTm);
+      xTm=setInterval(function(){var s=Math.ceil((end-Date.now())/1000),c=$('cd');if(c)c.textContent=Math.max(0,s);
+        if(s<=0){bye();sNo();toast('⏱ TIEMPO AGOTADO<br>TOCA LA CASILLA OTRA VEZ')}},100);
+    });
+  }else{
+    show('<h2>🔐 VALIDACIÓN DEL ADMINISTRADOR</h2><p>Para conseguir la <b>X nº '+num+'</b>, enséñale este código al administrador de la app.</p><div class="qr" id="qr"><div class="spin"></div></div><p id="kst">Preparando el código…</p><p>Cuando lo escanee con su móvil y pase su llave, <b>tu X quedará validada al instante</b>.</p><button class="btn b2" id="cl">CANCELAR</button>');
+    $('cl').onclick=bye;
+    link(ok,'Esperando la validación del administrador…');
+  }
 }
 
 function two(id,fn){var arm=false;$(id).onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}fn();save();render();menu()}}
