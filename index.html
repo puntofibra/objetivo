@@ -83,7 +83,8 @@ body{position:fixed;inset:0}
 @keyframes ring{from{transform:scale(.85);opacity:1}to{transform:scale(1.3);opacity:0}}
 @keyframes finger{50%{transform:translate(-8px,-8px) scale(.9)}}
 .tile.wait{border-color:var(--blue);color:var(--blue);border-style:dashed}
-.tile.last:not(.done) .n{font-size:1.1em;filter:drop-shadow(0 0 10px var(--yel));animation:wob 1.6s ease-in-out infinite}
+.tile.last{container-type:inline-size}
+.tile.last:not(.done) .n{font-size:1.9em;font-size:64cqw;line-height:1;filter:drop-shadow(0 0 10px var(--yel));animation:wob 1.6s ease-in-out infinite}
 @keyframes wob{25%{transform:rotate(-10deg)}75%{transform:rotate(10deg) scale(1.1)}}
 .tile.no{animation:no .4s}
 @keyframes no{20%,60%{transform:translateX(-7px) rotate(-3deg)}40%,80%{transform:translateX(7px) rotate(3deg)}}
@@ -180,6 +181,42 @@ body{position:fixed;inset:0}
 .card .btn{font-size:17px;transform:none;border-radius:12px;padding:12px 12px 9px}
 .card .btn:active{transform:translateY(4px)}
 
+.toast{z-index:95}
+.chip{position:absolute;left:50%;top:calc(8px + env(safe-area-inset-top));transform:translateX(-50%) skew(-8deg);z-index:85;display:none;background:#1a0850;border:3px solid var(--yel);color:var(--yel);padding:9px 16px 6px;font-size:clamp(12px,3.6vw,18px);white-space:nowrap;box-shadow:0 6px 0 rgba(0,0,0,.4);animation:chipG 1s ease-in-out infinite}
+@keyframes chipG{50%{box-shadow:0 6px 0 rgba(0,0,0,.4),0 0 26px var(--yel)}}
+.chip.on{display:block}
+.chip.tap{cursor:pointer}
+.nfc{position:relative;width:120px;height:120px;margin:4px auto;display:flex;align-items:center;justify-content:center}
+.nfc i{font-style:normal;font-size:52px;position:relative;z-index:1}
+.nfc span{position:absolute;inset:0;border-radius:50%;border:4px solid var(--blue);opacity:0}
+.nfc.on span{animation:ring2 1.8s ease-out infinite}
+.nfc.on span:nth-child(2){animation-delay:.6s}
+.nfc.on span:nth-child(3){animation-delay:1.2s}
+@keyframes ring2{from{transform:scale(.4);opacity:1}to{transform:scale(1.25);opacity:0}}
+.qr{background:#fff;border-radius:14px;padding:6px;width:min(100%,240px);margin:0 auto;min-height:120px;display:flex;align-items:center;justify-content:center}
+.qr svg{width:100%;height:auto;display:block}
+.spin{width:44px;height:44px;border-radius:50%;border:6px solid rgba(120,120,160,.35);border-top-color:var(--pur);animation:spin .8s linear infinite;margin:20px auto}
+.gslots{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.gslot{position:relative;aspect-ratio:1;border-radius:12px;border:3px solid rgba(255,255,255,.35);background:rgba(0,0,0,.3);color:#fff;font-family:var(--font);font-size:18px;cursor:pointer;overflow:hidden;padding:0}
+.gslot img{position:absolute;left:8%;top:8%;width:84%;height:84%;object-fit:contain}
+.gslot b{position:relative;font-weight:400;text-shadow:0 2px 0 #000,0 0 6px #000}
+.gslot.ok{border-color:#6dff9c;background:rgba(109,255,156,.14)}
+.gslot.ok b{position:absolute;left:4px;top:2px;font-size:13px}
+.gslot.cur{border-color:var(--yel);box-shadow:0 0 12px var(--yel)}
+.gprev{width:min(70%,220px);aspect-ratio:1;margin:0 auto;border-radius:16px;border:3px solid #fff;display:flex;align-items:center;justify-content:center;overflow:hidden;background:repeating-conic-gradient(#cfd3e6 0 25%,#fff 0 50%) 0 0/24px 24px;color:#7a6bd0;font-size:16px}
+.gprev img{width:92%;height:92%;object-fit:contain}
+.gprev img.in{animation:gin .5s cubic-bezier(.2,1.7,.4,1) both}
+@keyframes gin{from{transform:scale(0) rotate(-20deg);opacity:0}}
+.spec{font-family:system-ui,sans-serif;letter-spacing:0;font-size:13.5px;line-height:1.5;text-align:left;background:rgba(0,0,0,.3);border:2px dashed rgba(255,255,255,.4);border-radius:12px;padding:10px 12px}
+.spec b,.card p b{color:var(--yel)}
+.gift.pic{font-size:0}
+.gift.pic img{width:min(46vw,210px);height:min(46vw,210px);object-fit:contain;display:block}
+.win.open .gift.pic{animation:giftUpP 1s cubic-bezier(.2,1.6,.4,1) .25s forwards,floatP 2.2s ease-in-out infinite 2.7s}
+@keyframes giftUpP{to{transform:translate(-50%,-88%) scale(1)}}
+@keyframes floatP{0%,100%{transform:translate(-50%,-88%) scale(1) rotate(-4deg)}50%{transform:translate(-50%,-94%) scale(1.05) rotate(4deg)}}
+.win.open .gift.pic img{animation:reveal 2.3s ease .25s both}
+@keyframes reveal{0%{filter:brightness(0);transform:rotateY(0)}55%{filter:brightness(0) drop-shadow(0 0 16px #ffe600);transform:rotateY(1080deg)}63%{filter:brightness(5);transform:rotateY(1080deg) scale(1.25)}100%{filter:brightness(1) drop-shadow(0 0 22px rgba(255,230,0,.9));transform:rotateY(1080deg) scale(1)}}
+
 /* ---------- HORIZONTAL (PC / tablet) ---------- */
 @media (orientation:landscape) and (min-width:700px){
   .app{flex-direction:row;justify-content:center;gap:4vw;padding:20px 4vw}
@@ -216,7 +253,7 @@ body{position:fixed;inset:0}
   <div class="rays"></div>
   <div class="chest" id="chest">
     <div class="cGlow"></div>
-    <div class="gift">🎁</div>
+    <div class="gift" id="giftBox">🎁</div>
     <div class="cLid"></div>
     <div class="cBody"></div>
   </div>
@@ -232,6 +269,7 @@ body{position:fixed;inset:0}
 <div class="modal" id="modal"><div class="card" id="card"></div></div>
 <canvas id="fx"></canvas>
 <div class="flash" id="flash"></div>
+<div class="chip" id="chip"></div>
 
 <script>
 (function(){
@@ -312,7 +350,7 @@ function xSvg(i){
 
 /* ---------- pintar ---------- */
 function render(freshIdx){
-  var n=st.marks.length, g=$('grid'), h='', dt=doneToday();
+  var n=st.marks.length, g=$('grid'), h='', dt=doneToday()&&!adm.x;
   for(var i=0;i<TOTAL;i++){
     var cls='tile', inner='<span class="n">'+(i===TOTAL-1&&i>=n?'🎁':(i+1))+'</span>';
     if(i===TOTAL-1) cls+=' last';
@@ -324,7 +362,7 @@ function render(freshIdx){
   $('season').textContent='REGALO '+st.season;
   $('count').innerHTML='<b>'+n+'</b>/'+TOTAL;
   $('fill').style.width=(n/TOTAL*100)+'%';
-  $('prize').innerHTML=st.prize?('🎁 REGALO: <b>'+esc(st.prize)+'</b>'):('🎁 ¡CONSIGUE 20 X Y GANA TU <b>REGALO</b>!');
+  $('prize').innerHTML='🎁 REGALO Nº '+st.season+': <b>¡SORPRESA!</b> ❓';
   msg();
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -351,6 +389,7 @@ $('grid').addEventListener('click',function(e){
   var i=+t.getAttribute('data-i'), n=st.marks.length;
   if(i<n){ t.classList.remove('slam');void t.offsetWidth;t.classList.add('slam'); tone(500+i*40,0,.08,'square',.1); return }
   if(i>n){ nope(t,'🔒 ¡PRIMERO LA CASILLA '+(n+1)+'!'); return }
+  if(adm.x){ mark(true); return }
   if(doneToday()){ nope(t,'⏳ ¡HOY YA TIENES TU X!<br>VUELVE MAÑANA'); return }
   mark(false);
 });
@@ -359,7 +398,7 @@ function toast(txt){var o=document.querySelector('.toast');if(o)o.remove();var d
 function mark(extra){
   var i=st.marks.length; if(i>=TOTAL)return;
   st.marks.push(extra?'extra':today()); if(!extra)st.last=today(); save();
-  busy=true; render(i);
+  var fast=adm.x; busy=true; render(i);
   var t=$('grid').children[i], r=t.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
   sMark(); if(navigator.vibrate)navigator.vibrate([40,60,40,60,120]);
   setTimeout(function(){
@@ -369,17 +408,19 @@ function mark(extra){
     var f=$('flash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on');
     var a=$('app');a.classList.remove('shake');void a.offsetWidth;a.classList.add('shake');
     var c=$('count');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump');
-  },400);
+  },fast?100:400);
   setTimeout(function(){
     busy=false;
-    if(st.marks.length>=TOTAL) win(); else toast(['¡BRUTAL! 💥','¡ÉPICO! 🔥','¡MÁQUINA! 💪','¡QUÉ CRACK! ⭐','¡IMPARABLE! 🚀'][i%5]+'<br>'+(i+1)+' DE 20');
-  },1300);
+    if(st.marks.length>=TOTAL){xEnd(true);win()} else if(!fast) toast(['¡BRUTAL! 💥','¡ÉPICO! 🔥','¡MÁQUINA! 💪','¡QUÉ CRACK! ⭐','¡IMPARABLE! 🚀'][i%5]+'<br>'+(i+1)+' DE 20');
+  },fast?350:1300);
 }
 
 /* ---------- premio ---------- */
 function win(){
   var w=$('win'); w.classList.remove('open'); w.classList.add('on');
-  $('wPrize').textContent=st.prize?st.prize.toUpperCase():'¡TU REGALO!';
+  var g=getGift(st.season), gb=$('giftBox');
+  if(g&&g.img){gb.className='gift pic';gb.innerHTML='<img alt="" src="'+g.img+'">'}else{gb.className='gift';gb.textContent='🎁'}
+  $('wPrize').textContent=g&&g.name?g.name.toUpperCase():'¡TU REGALO!';
   sRumble();
 }
 $('chest').addEventListener('click',function(){
@@ -395,58 +436,166 @@ $('again').addEventListener('click',function(){
   toast('🚀 ¡REGALO '+st.season+'!<br>A POR OTRAS 20 X');
 });
 
-/* ---------- menú de padres: mantener pulsado el título 3 s ---------- */
-var hT=null,hS=0,hR=null;
-var tp=[];
-function hStart(e){e.preventDefault();hS=Date.now();tp.push(hS);tp=tp.filter(function(t){return hS-t<10000});if(tp.length>=10){tp=[];hEnd();trick();return}cancelAnimationFrame(hR);(function step(){var p=(Date.now()-hS)/3000;$('hold').style.width=Math.min(100,p*100)+'%';
-  if(p>=1){hEnd();gate()}else hR=requestAnimationFrame(step)})()}
-function hEnd(){cancelAnimationFrame(hR);$('hold').style.width='0'}
-var ti=$('title');
-ti.addEventListener('pointerdown',hStart);ti.addEventListener('pointerup',hEnd);ti.addEventListener('pointerleave',hEnd);ti.addEventListener('pointercancel',hEnd);
+/* ---------- modo admin: 10 toques en el titulo + llave NFC ---------- */
+var tp=[], ti=$('title');
+ti.addEventListener('pointerdown',function(e){e.preventDefault();var now=Date.now();tp.push(now);tp=tp.filter(function(t){return now-t<10000});
+  if(tp.length>=10){tp=[];if(adm.x)return;if(adm.on)openAdmin();else askKey('enter')}});
 ti.addEventListener('contextmenu',function(e){e.preventDefault()});
 
-function trick(){
-  ac();tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);
-  $('card').innerHTML='<h2>🕹️ TRUCO SECRETO</h2><p>¿Qué quieres hacer?</p>'+
-    '<button class="btn" id="t1">➕ PONER 1 X MÁS HOY</button>'+
-    '<button class="btn b3" id="t2">🗑️ BORRAR TODAS LAS X</button>'+
-    '<button class="btn b3" id="t3">💥 BORRAR X Y REGALOS</button>'+
-    '<button class="btn b2" id="cl">CERRAR</button>';
-  $('modal').classList.add('on');
-  $('cl').onclick=close;
-  function two(id,fn){var arm=false;$(id).onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}fn();save();render();close()}}
-  two('t1',function(){st.last=null;toast('🔓 YA PUEDES PONER 1 X MÁS')});
-  two('t2',function(){st.marks=[];st.last=null;toast('🗑️ X BORRADAS')});
-  two('t3',function(){st.marks=[];st.last=null;st.season=1;st.wins=[];toast('💥 TODO A CERO')});
-}
-function gate(){
-  var a=6+((Math.random()*4)|0), b=6+((Math.random()*4)|0);
-  $('card').innerHTML='<h2>🔐 SOLO PAPÁS</h2><p>Para entrar, ¿cuánto es '+a+' × '+b+'?</p><input id="ans" type="number" inputmode="numeric" autocomplete="off">'+
-    '<button class="btn" id="ok">ENTRAR</button><button class="btn b2" id="cl">CERRAR</button>';
-  $('modal').classList.add('on');
-  $('cl').onclick=close; $('ok').onclick=function(){ if(+$('ans').value===a*b) menu(); else {sNo();$('ans').value=''} };
-}
+var adm={on:false,x:false,tm:null,end:0}, chip=$('chip'), scanCtl=null, peer=null;
+var PEERJS='https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js', QRJS='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
 function close(){$('modal').classList.remove('on')}
-function menu(){
-  var n=st.marks.length;
-  $('card').innerHTML='<h2>⚙️ AJUSTES</h2><p>Regalo '+st.season+' · '+n+' de 20 X · Regalos conseguidos: '+st.wins.length+'</p>'+
-    '<p>Nombre del regalo (se ve en la app y al abrir el cofre):</p><input id="pz" type="text" maxlength="40" placeholder="Ej.: paVos, un juguete..." value="'+esc(st.prize)+'">'+
-    '<button class="btn" id="sv">💾 GUARDAR REGALO</button>'+
-    '<button class="btn b2" id="ex">➕ PONER UNA X (día olvidado)</button>'+
-    '<button class="btn b2" id="un">↩️ QUITAR LA ÚLTIMA X</button>'+
-    '<input id="nx" type="number" inputmode="numeric" min="0" max="19" placeholder="Nº de X ya hechas (0-19)"><button class="btn b2" id="sn">✏️ PONER ESE NÚMERO DE X</button>'+
-    '<button class="btn b2" id="td">🔓 PERMITIR OTRA X HOY</button>'+
-    '<button class="btn b3" id="rs">🗑️ REINICIAR TODO</button>'+
-    '<button class="btn b2" id="cl">CERRAR</button>';
-  $('cl').onclick=close;
-  $('sv').onclick=function(){st.prize=$('pz').value.trim();save();render();close();toast('🎁 REGALO GUARDADO')};
-  $('ex').onclick=function(){st.prize=$('pz').value.trim();close();if(st.marks.length<TOTAL)mark(true)};
-  $('un').onclick=function(){if(!st.marks.length)return;var m=st.marks.pop();if(m!=='extra'){st.last=null;for(var i=st.marks.length-1;i>=0;i--){if(st.marks[i]!=='extra'){st.last=st.marks[i];break}}}save();render();menu()};
-  $('td').onclick=function(){st.last=null;save();render();close();toast('🔓 HOY SE PUEDE MARCAR OTRA X')};
-  $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(19,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();close();toast('✅ '+v+' X PUESTAS')};
-  var arm=false;
-  $('rs').onclick=function(){if(!arm){arm=true;this.textContent='⚠️ PULSA OTRA VEZ PARA BORRAR TODO';return}st={season:1,marks:[],last:null,prize:st.prize,wins:[]};save();render();close()};
+function show(html){$('card').innerHTML=html;$('modal').classList.add('on')}
+function clearTm(){if(adm.tm){clearInterval(adm.tm);adm.tm=null}}
+function countdown(label,click,done){
+  clearTm();adm.end=Date.now()+10000;chip.onclick=click||null;chip.className='chip on'+(click?' tap':'');
+  var f=function(){var s=Math.ceil((adm.end-Date.now())/1000);if(s<=0){clearTm();chip.className='chip';done();return}chip.textContent=label+' · '+s+' s'};
+  f();adm.tm=setInterval(f,200);
 }
+function lock(msg){clearTm();adm.on=false;adm.x=false;chip.className='chip';if(msg){toast(msg);sNo()}}
+function openAdmin(){clearTm();chip.className='chip';adm.on=true;adm.x=false;menu()}
+function leave(){close();if(!adm.on)return;countdown('🔑 ADMIN · TOCA PARA VOLVER',openAdmin,function(){lock('🔒 SESIÓN DE ADMIN CERRADA')})}
+function xStart(){close();adm.x=true;render();countdown('✖️ PON LAS X QUE QUIERAS',null,function(){lock('🔒 TIEMPO AGOTADO<br>ADMIN CERRADO');render()})}
+function xEnd(silent){if(adm.x)lock(silent?'':'🔒 ADMIN CERRADO')}
+
+function keys(){try{return JSON.parse(localStorage.getItem('objetivo_keys')||'[]')}catch(e){return[]}}
+function hashKey(sn){var s='objetivo|'+String(sn).replace(/[^0-9a-f]/gi,'').toUpperCase();
+  return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('')})}
+function stopScan(){if(scanCtl){try{scanCtl.abort()}catch(e){}scanCtl=null}if(peer){try{peer.destroy()}catch(e){}peer=null}}
+function loadJs(u){return new Promise(function(ok,ko){var s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=ko;document.head.appendChild(s)})}
+function gotKey(h,mode){
+  stopScan();var k=keys();
+  if(mode==='add'){if(k.indexOf(h)<0){k.push(h);localStorage.setItem('objetivo_keys',JSON.stringify(k))}openAdmin();toast('🔑 LLAVE AÑADIDA');return}
+  if(!k.length){k.push(h);localStorage.setItem('objetivo_keys',JSON.stringify(k));toast('🔑 LLAVE GUARDADA<br>DESDE AHORA SOLO VALE ESTA')}
+  else if(k.indexOf(h)<0){sNo();show('<h2>⛔ LLAVE NO VÁLIDA</h2><p>Esta no es la llave guardada en este dispositivo.</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=close;return}
+  tone(660,0,.08);tone(990,.09,.08);tone(1320,.18,.2);openAdmin();
+}
+var NFCUI='<div class="nfc" id="nfc"><span></span><span></span><span></span><i>📶</i></div><p id="kst">Pulsa el botón y acerca tu llave NFC a la parte de atrás del móvil.</p><button class="btn" id="rd">📲 LEER LLAVE NFC</button><button class="btn b2" id="cl">CANCELAR</button>';
+function askKey(mode){
+  ac();
+  var first=!keys().length&&mode!=='add', cancel=function(){stopScan();if(mode==='add')openAdmin();else close()};
+  var head='<h2>🔑 '+(mode==='add'?'AÑADIR OTRA LLAVE':'MODO ADMIN')+'</h2>'+(first?'<p>Todavía no hay ninguna llave guardada en este dispositivo. <b>La primera llave que pases será la llave de admin.</b></p>':'');
+  if('NDEFReader' in window){
+    show(head+NFCUI);$('cl').onclick=cancel;
+    $('rd').onclick=function(){scan(function(h){gotKey(h,mode)})};
+  }else{
+    show(head+'<p>Este dispositivo no lee NFC. <b>Escanea este código QR con tu móvil Android</b> y pasa la llave por el móvil.</p><div class="qr" id="qr"><div class="spin"></div></div><p id="kst">Preparando el enlace…</p><button class="btn b2" id="cl">CANCELAR</button>');
+    $('cl').onclick=cancel;link(function(h){gotKey(h,mode)});
+  }
+}
+function scan(cb){
+  var ks=$('kst'), n=$('nfc');
+  try{
+    var r=new NDEFReader();scanCtl=new AbortController();
+    r.scan({signal:scanCtl.signal}).then(function(){
+      if(n)n.classList.add('on');if(ks)ks.textContent='Acerca la llave ahora…';var b=$('rd');if(b)b.style.display='none';
+      r.onreading=function(ev){if(!ev.serialNumber){if(ks)ks.textContent='Esta llave no da número de serie. Prueba otra vez.';return}if(navigator.vibrate)navigator.vibrate(80);hashKey(ev.serialNumber).then(cb)};
+      r.onreadingerror=function(){if(ks)ks.textContent='No se ha podido leer. Acércala otra vez.'};
+    }).catch(function(){if(ks)ks.textContent='No se ha podido activar el NFC: comprueba que está encendido y da permiso.'});
+  }catch(e){if(ks)ks.textContent='Este navegador no permite leer NFC.'}
+}
+function link(cb){
+  var ks=$('kst');
+  Promise.all([window.Peer?0:loadJs(PEERJS),window.qrcode?0:loadJs(QRJS)]).then(function(){
+    var a=new Uint8Array(12);crypto.getRandomValues(a);var id=Array.prototype.map.call(a,function(x){return('0'+x.toString(16)).slice(-2)}).join('');
+    peer=new Peer('objetivo-'+id);
+    peer.on('open',function(){
+      var q=qrcode(0,'M');q.addData(location.origin+location.pathname+'?llave='+id);q.make();
+      var box=$('qr');if(box)box.innerHTML=q.createSvgTag(5,10);
+      if(ks)ks.textContent='Esperando a que pases la llave por el móvil…';
+    });
+    peer.on('connection',function(c){c.on('data',function(d){if(d&&d.k)cb(String(d.k))})});
+    peer.on('error',function(){if(ks)ks.textContent='No se ha podido crear el enlace. Comprueba internet y vuelve a intentarlo.'});
+  }).catch(function(){if(ks)ks.textContent='No se ha podido cargar el enlace. Comprueba internet.'});
+}
+function fin(){stopScan();location.replace(location.pathname)}
+function reader(id){
+  if(!('NDEFReader' in window)){show('<h2>🔑 LECTOR DE LLAVE</h2><p>Este móvil no puede leer NFC desde la web. Hace falta un Android con Chrome.</p><button class="btn b2" id="cl">CERRAR</button>');$('cl').onclick=fin;return}
+  show('<h2>🔑 LECTOR DE LLAVE</h2>'+NFCUI);$('cl').onclick=fin;
+  $('rd').onclick=function(){ac();scan(function(h){
+    var ks=$('kst');if(ks)ks.textContent='Llave leída. Enviando al otro dispositivo…';
+    if(scanCtl){try{scanCtl.abort()}catch(e){}scanCtl=null}
+    (window.Peer?Promise.resolve():loadJs(PEERJS)).then(function(){
+      peer=new Peer();
+      peer.on('open',function(){var c=peer.connect('objetivo-'+id,{reliable:true});
+        c.on('open',function(){c.send({k:h});tone(660,0,.08);tone(1320,.1,.2);
+          setTimeout(function(){show('<h2>✅ LLAVE ENVIADA</h2><p>Ya puedes mirar el otro dispositivo.</p><button class="btn" id="cl">CERRAR</button>');$('cl').onclick=fin},500)})});
+      peer.on('error',function(){if(ks)ks.textContent='No se ha podido enviar. Vuelve a escanear el QR.'});
+    }).catch(function(){if(ks)ks.textContent='No se ha podido enviar. Comprueba internet.'});
+  })};
+}
+
+function two(id,fn){var arm=false;$(id).onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}fn();save();render();menu()}}
+function menu(){
+  var n=st.marks.length, c=0;for(var i=1;i<=20;i++)if(getGift(i))c++;
+  show('<h2>🔑 MODO ADMIN</h2><p>Regalo nº '+st.season+' · '+n+' de 20 X · Regalos conseguidos: '+st.wins.length+' · Regalos configurados: '+c+' de 20</p>'+
+    '<button class="btn" id="gf">🎁 CONFIGURAR LOS 20 REGALOS</button>'+
+    '<button class="btn" id="px">✖️ PONER X (10 SEGUNDOS)</button>'+
+    '<input id="nx" type="number" inputmode="numeric" min="0" max="19" placeholder="Nº de X ya hechas (0-19)"><button class="btn b2" id="sn">✏️ PONER ESE NÚMERO DE X</button>'+
+    '<button class="btn b2" id="un">↩️ QUITAR LA ÚLTIMA X</button>'+
+    '<button class="btn b3" id="t2">🗑️ BORRAR TODAS LAS X</button>'+
+    '<button class="btn b3" id="t3">💥 BORRAR X Y VOLVER AL REGALO 1</button>'+
+    '<button class="btn b2" id="ak">🔑 AÑADIR OTRA LLAVE</button>'+
+    '<button class="btn b2" id="cl">CERRAR</button>');
+  $('cl').onclick=leave;$('gf').onclick=giftsView;$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
+  $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(19,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();menu()};
+  $('un').onclick=function(){if(!st.marks.length)return;var m=st.marks.pop();if(m!=='extra'){st.last=null;for(var i=st.marks.length-1;i>=0;i--){if(st.marks[i]!=='extra'){st.last=st.marks[i];break}}}save();render();menu()};
+  two('t2',function(){st.marks=[];st.last=null});
+  two('t3',function(){st.marks=[];st.last=null;st.season=1;st.wins=[]});
+}
+
+/* ---------- los 20 regalos ocultos ---------- */
+function getGift(n){try{return JSON.parse(localStorage.getItem('objetivo_gift_'+n)||'null')}catch(e){return null}}
+function giftsView(){
+  var h='<h2>🎁 LOS 20 REGALOS OCULTOS</h2><p>Toca un número para ponerle su regalo. Nadie los ve hasta que se abre el cofre de ese regalo.</p><div class="gslots">';
+  for(var i=1;i<=20;i++){var g=getGift(i);h+='<button class="gslot'+(i===st.season?' cur':'')+(g?' ok':'')+'" data-n="'+i+'">'+(g&&g.img?'<img alt="" src="'+g.img+'">':'')+'<b>'+i+'</b></button>'}
+  h+='</div><p>En amarillo, el regalo que toca ahora (nº '+st.season+'). En verde, los que ya tienen imagen.</p><button class="btn b2" id="bk">⬅ VOLVER</button>';
+  show(h);$('bk').onclick=menu;
+  var bs=document.querySelectorAll('.gslot');for(var j=0;j<bs.length;j++)bs[j].onclick=function(){giftEdit(+this.getAttribute('data-n'))};
+}
+function giftEdit(n){
+  var g=getGift(n)||{name:'',img:''}, cur=g.img;
+  show('<h2>🎁 REGALO Nº '+n+'</h2>'+
+    '<div class="gprev" id="gprev">'+(cur?'<img alt="" src="'+cur+'">':'<span>SIN IMAGEN</span>')+'</div>'+
+    '<div class="spec"><b>📐 CÓMO TIENE QUE SER LA IMAGEN</b><br>• Formato <b>PNG sin fondo</b> (transparente)<br>• Cuadrada, de <b>600 × 600 px</b> (mínimo 300 × 300 px)<br>• El regalo centrado y ocupando casi toda la imagen<br>• Sin brillos, sombras ni nada fuera del contorno</div>'+
+    '<p id="gst">'+(cur?'Este regalo ya tiene imagen. Puedes cambiarla.':'Todavía no has elegido imagen.')+'</p>'+
+    '<input id="gfile" type="file" accept="image/png" style="display:none">'+
+    '<button class="btn" id="gpick">📁 ELEGIR IMAGEN PNG</button>'+
+    '<input id="gname" type="text" maxlength="40" placeholder="Nombre del regalo (opcional)" value="'+esc(g.name||'')+'">'+
+    '<button class="btn" id="gsave">💾 GUARDAR REGALO</button>'+
+    '<button class="btn b3" id="gdel">🗑️ QUITAR ESTE REGALO</button>'+
+    '<button class="btn b2" id="bk">⬅ VOLVER</button>');
+  $('bk').onclick=giftsView;
+  $('gpick').onclick=function(){$('gfile').click()};
+  $('gfile').onchange=function(){
+    var f=this.files&&this.files[0];if(!f)return;var gs=$('gst'), pv=$('gprev');
+    pv.innerHTML='<div class="spin"></div>';gs.textContent='Cargando imagen…';
+    var rd=new FileReader();
+    rd.onload=function(){var im=new Image();
+      im.onload=function(){
+        var w=im.naturalWidth,h=im.naturalHeight,k=Math.min(1,512/Math.max(w,h)),cw=Math.max(1,Math.round(w*k)),ch=Math.max(1,Math.round(h*k));
+        var c=document.createElement('canvas');c.width=cw;c.height=ch;var x=c.getContext('2d');x.drawImage(im,0,0,cw,ch);
+        var tr=false;try{var d=x.getImageData(0,0,cw,ch).data,pts=[[0,0],[cw-1,0],[0,ch-1],[cw-1,ch-1]];for(var i=0;i<4;i++){if(d[(pts[i][1]*cw+pts[i][0])*4+3]<20)tr=true}}catch(e){}
+        var out=c.toDataURL('image/webp',.88);if(out.indexOf('data:image/webp')!==0)out=c.toDataURL('image/png');
+        cur=out;
+        var png=f.type==='image/png', sq=Math.abs(w-h)<=Math.max(w,h)*.1, big=Math.min(w,h)>=300;
+        pv.innerHTML='<img class="in" alt="" src="'+out+'">';
+        gs.innerHTML='Tu imagen mide <b>'+w+' × '+h+' px</b><br>'+(png?'✅ Es PNG':'⚠️ No es PNG')+' · '+(tr?'✅ Sin fondo':'⚠️ Parece que tiene fondo')+' · '+(sq?'✅ Cuadrada':'⚠️ No es cuadrada')+' · '+(big?'✅ Buen tamaño':'⚠️ Muy pequeña (mínimo 300 px)');
+        tone(880,0,.08);tone(1320,.09,.15);
+      };
+      im.onerror=function(){pv.innerHTML='<span>SIN IMAGEN</span>';gs.textContent='No se ha podido abrir esa imagen.'};
+      im.src=rd.result};
+    rd.readAsDataURL(f);
+  };
+  $('gsave').onclick=function(){
+    if(!cur){$('gst').textContent='⚠️ Primero elige una imagen.';sNo();return}
+    try{localStorage.setItem('objetivo_gift_'+n,JSON.stringify({name:$('gname').value.trim(),img:cur}));giftsView();toast('🎁 REGALO '+n+' GUARDADO')}
+    catch(e){$('gst').textContent='⚠️ No queda espacio en este dispositivo para más imágenes.';sNo()}
+  };
+  var arm=false;$('gdel').onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}localStorage.removeItem('objetivo_gift_'+n);giftsView()};
+}
+var LL=(location.search.match(/[?&]llave=([0-9a-f]{24})/)||[])[1];
+if(LL)setTimeout(function(){reader(LL)},0);
 
 /* ---------- instalar (PWA) ---------- */
 var dp=null, inst=$('inst');
