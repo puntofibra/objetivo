@@ -230,63 +230,44 @@ body{position:fixed;inset:0}
 .cd{font-size:72px;line-height:1;color:var(--yel);-webkit-text-stroke:3px #1a0850;paint-order:stroke fill;text-shadow:0 5px 0 #1a0850}
 
 /* ---------- DEMOS PARA NEGOCIOS (tarjeta de fidelidad) ---------- */
-.demo{--font:'Inter',system-ui,sans-serif;letter-spacing:0}
-.demo .bg{background:radial-gradient(120% 70% at 50% 0%,#2b2622 0%,#151312 55%,#0b0a0a 100%)}
-.demo-comida .bg{background:radial-gradient(120% 70% at 50% 0%,#3d2613 0%,#1a120c 55%,#0c0806 100%)}
-.demo-unas .bg{background:radial-gradient(120% 70% at 50% 0%,#4d2c38 0%,#24141b 55%,#120a0e 100%)}
-.demo .bg::before{opacity:.22;animation-duration:44s}
-.demo .bg::after{background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 32%,transparent),transparent 70%)}
-.demo .spark{background:var(--acc);box-shadow:0 0 10px 2px var(--acc);width:4px!important;height:4px!important}
-.demo .title{font-family:'Playfair Display',Georgia,serif;font-weight:800;transform:none;-webkit-text-stroke:0;text-shadow:none;letter-spacing:.1em;font-size:clamp(32px,10vw,58px);line-height:1.1;background:linear-gradient(100deg,var(--acc) 25%,#fff 50%,var(--acc) 75%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fade 1.2s both,shine 6s linear infinite}
-@keyframes shine{to{background-position:-200% 0}}
-.dtag{font-size:clamp(9px,2.7vw,12px);letter-spacing:.3em;color:#fff;opacity:.75;text-align:center;animation:fade 1.6s both}
-.demo .season{background:none;border:1px solid var(--acc);color:var(--acc);transform:none;box-shadow:none;letter-spacing:.25em;font-size:11px;padding:6px 16px;border-radius:30px;margin-top:6px}
-.demo .season span{transform:none}
-.demo .progTop{font-size:12px;letter-spacing:.2em;opacity:.9}
-.demo .count{font-family:'Playfair Display',Georgia,serif;-webkit-text-stroke:0;font-size:clamp(26px,8vw,40px)}
-.demo .count b{color:var(--acc);font-weight:800}
-.demo .bar{height:8px;border:0;transform:none;border-radius:8px;background:rgba(255,255,255,.12);box-shadow:none}
-.demo .fill{background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 55%,#000),var(--acc));border-radius:8px}
-.demo .fill::after{display:none}
-.demo .grid{grid-template-columns:repeat(5,1fr);gap:clamp(8px,2.6vw,16px);padding:clamp(14px,4vw,24px);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);border-radius:22px;background:rgba(255,255,255,.04);box-shadow:0 20px 50px rgba(0,0,0,.45);width:min(94vw,560px)}
-.demo .tile{border-radius:50%;background:rgba(255,255,255,.03);border:1.5px dashed color-mix(in srgb,var(--acc) 55%,transparent);box-shadow:none;color:color-mix(in srgb,var(--acc) 65%,transparent);font-family:'Playfair Display',Georgia,serif;font-size:clamp(15px,4.6vw,24px)}
-.demo .tile.done{background:color-mix(in srgb,var(--acc) 12%,transparent);border:0}
+.demo-comida{--yel:#ffd400;--yel2:#ff9d00;--ink:#1a0a00;--c1:#e31b23;--c2:#8f0d12;--bgA:#ff7a1f;--bgB:#c4161c;--bgC:#4a0607}
+.demo-pelu{--yel:#ffffff;--yel2:#c9ced6;--ink:#06060c;--c1:#e10600;--c2:#0b3fbf;--bgA:#2f4a9a;--bgB:#141a33;--bgC:#050509}
+.demo-unas{--yel:#ffffff;--yel2:#ffd3ea;--ink:#5a0033;--c1:#ff2d95;--c2:#b8005f;--bgA:#ff7cc0;--bgB:#d6157c;--bgC:#5e0037}
+.demo .bg{background:radial-gradient(120% 80% at 50% 0%,var(--bgA) 0%,var(--bgB) 45%,var(--bgC) 100%)}
+.demo .bg::after{background:radial-gradient(closest-side,color-mix(in srgb,var(--c1) 60%,transparent),transparent 70%)}
+.demo .spark{box-shadow:0 0 12px 3px var(--yel)}
+.demo .title{-webkit-text-stroke:3px var(--ink);text-shadow:0 5px 0 var(--ink),0 9px 0 rgba(0,0,0,.35),0 0 30px color-mix(in srgb,var(--yel) 55%,transparent);font-size:clamp(34px,11vw,70px)}
+.demo-pelu .title{transform:skew(-13deg) rotate(-2deg);text-shadow:0 5px 0 var(--ink),4px 9px 0 var(--c1),0 0 30px rgba(255,255,255,.5)}
+.demo-unas .title{text-shadow:0 5px 0 var(--ink),0 9px 0 rgba(0,0,0,.3),0 0 34px #ffb3dc}
+.dtag{font-size:clamp(12px,3.4vw,16px);color:#fff;text-shadow:0 2px 0 var(--ink);text-align:center;margin-top:6px}
+.demo .season{background:linear-gradient(90deg,var(--c1),var(--c2))}
+.demo .count,.demo .tile.next .n,.demo .plus,.demo .wBig,.demo .cd{-webkit-text-stroke-color:var(--ink)}
+.demo .bar{background:rgba(0,0,0,.55)}
+.demo .fill{background:linear-gradient(90deg,var(--c2),var(--c1),var(--yel))}
+.demo .grid{grid-template-columns:repeat(5,1fr);width:min(94vw,560px)}
+.demo .tile{font-size:clamp(18px,5.4vw,30px);background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(0,0,0,.45))}
+.demo .tile.done{background:linear-gradient(160deg,#fff,#f1f1f1);border-color:#fff}
 .demo .tile.done .n{display:none}
-.demo .tile.next{background:color-mix(in srgb,var(--acc) 22%,transparent);border:1.5px solid var(--acc);color:#fff}
-.demo .tile.next::before{inset:-6px;border-radius:50%;border:1.5px solid var(--acc)}
-.demo .tile.next .n{-webkit-text-stroke:0;color:#fff}
-.demo .tile .tap{display:none}
-.demo .tile.last{container-type:normal}
-.demo .tile.last:not(.done) .n{font-size:1.5em;color:var(--acc);filter:none;animation:none}
-.x.stp{inset:0;width:100%;height:100%}
+.demo .tile.next{background:linear-gradient(160deg,var(--yel2),var(--c1));border-color:var(--yel)}
+.demo .tile.next::before{border-color:var(--yel)}
+.x.stp{inset:3%;width:94%;height:94%}
 .fresh .x.stp{animation:stampIn .5s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes stampIn{from{transform:rotate(var(--r,0deg)) scale(2.6);opacity:0}}
-.demo .msg{transform:none;background:rgba(255,255,255,.06);border:1px solid color-mix(in srgb,var(--acc) 55%,transparent);color:#fff;box-shadow:0 14px 40px rgba(0,0,0,.4);border-radius:16px;font-size:clamp(15px,4.4vw,20px);font-weight:600;padding:14px}
-.demo .msg>div{transform:none}
-.demo .msg small{font-weight:400;letter-spacing:.06em;margin-top:5px}
-.demo .prize{font-size:13px;letter-spacing:.08em;text-shadow:none}
-.demo .prize b{color:var(--acc);font-weight:600}
-.demo .inst{font-size:11px;letter-spacing:.1em}
-.demo .toast{transform:translate(-50%,-50%);background:#141210;border:1px solid var(--acc);border-radius:14px;font-size:clamp(15px,4.4vw,20px);font-weight:600;animation:toastD 2.2s ease forwards}
-@keyframes toastD{0%{opacity:0;transform:translate(-50%,-40%)}12%{opacity:1;transform:translate(-50%,-50%)}85%{opacity:1}100%{opacity:0}}
-.demo .shock{border:2px solid var(--acc)}
-.demo .plus{font-family:'Playfair Display',Georgia,serif;-webkit-text-stroke:0;color:var(--acc)}
-.demo .win{background:radial-gradient(circle at 50% 45%,rgba(44,34,24,.96),rgba(6,5,5,.98) 75%)}
-.demo .rays{background:repeating-conic-gradient(color-mix(in srgb,var(--acc) 20%,transparent) 0 6deg,transparent 6deg 18deg)}
-.demo .cLid,.demo .cBody,.demo .wHint{display:none}
-.demo .cGlow{background:radial-gradient(circle,#fff,var(--acc) 30%,transparent 70%);opacity:.45}
-.demo .gift .x{position:static;width:min(44vw,190px);height:min(44vw,190px);display:block}
-.demo .wBig{font-family:'Playfair Display',Georgia,serif;transform:none;-webkit-text-stroke:0;color:var(--acc);text-shadow:none;font-size:clamp(34px,10vw,56px)}
-.demo .wSub{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;text-shadow:none}
-.demo .wPrize{transform:none;background:none;border:1px solid var(--acc);border-radius:40px;font-size:clamp(15px,4.6vw,22px);letter-spacing:.1em;padding:12px 22px;color:#fff;font-weight:600}
-.demo .win .btn,.demo .card .btn{transform:none;background:var(--acc);color:#141210;border:0;border-radius:40px;box-shadow:none;font-size:13px;letter-spacing:.14em;font-weight:600;padding:14px 22px}
-.demo .card{background:linear-gradient(180deg,#1d1916,#0e0c0b);border:1px solid var(--acc);border-radius:20px}
-.demo .card h2{font-family:'Playfair Display',Georgia,serif;color:var(--acc);font-weight:800}
-.demo .card .btn.b2{background:none;border:1px solid rgba(255,255,255,.4);color:#fff}
-.demo .card .btn.b3{background:none;border:1px solid #e06a6a;color:#ffb3b3}
-.demo .cd{font-family:'Playfair Display',Georgia,serif;-webkit-text-stroke:0;color:var(--acc);text-shadow:none}
-.demo .nfc span{border-color:var(--acc)}
-.demo .chip{transform:translateX(-50%);border:1px solid var(--acc);border-radius:30px;font-size:12px;letter-spacing:.08em;background:#141210;font-weight:600}
+.demo .msg{background:linear-gradient(180deg,var(--yel),var(--yel2));color:var(--ink);box-shadow:0 6px 0 var(--ink),0 12px 18px rgba(0,0,0,.4)}
+.demo-pelu .msg{background:linear-gradient(180deg,#ff3b30,#b30500);color:#fff}
+.demo-unas .msg{background:linear-gradient(180deg,#ff6ab6,#d6157c);color:#fff}
+.demo .prize b{color:var(--yel)}
+.demo-comida .prize b{color:#ffd400}
+.demo .toast{background:var(--ink);border-color:var(--c1)}
+.demo .win{background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--bgB) 92%,transparent),rgba(8,2,4,.97) 75%)}
+.demo .rays{background:repeating-conic-gradient(color-mix(in srgb,var(--yel) 32%,transparent) 0 9deg,transparent 9deg 18deg)}
+.demo .cLid,.demo .cBody{background:linear-gradient(180deg,var(--c1),var(--c2));border-color:var(--ink)}
+.demo .wBig{text-shadow:0 6px 0 var(--ink),0 0 40px color-mix(in srgb,var(--yel) 80%,transparent)}
+.demo .wPrize{background:linear-gradient(90deg,var(--c1),var(--c2))}
+.demo .gift.pic img{width:min(64vw,290px);height:min(64vw,290px)}
+.demo .tile .pk{left:1%;top:0;width:98%;height:92%}
+.demo .card{background:linear-gradient(180deg,var(--bgB),var(--bgC))}
+.demo .card h2{color:var(--yel)}
 
 /* ---------- HORIZONTAL (PC / tablet) ---------- */
 @media (orientation:landscape) and (min-width:700px){
@@ -346,29 +327,29 @@ body{position:fixed;inset:0}
 (function(){
 'use strict';
 var DEMOS={
-  comida:{brand:'LA BRASA',tag:'TAKE AWAY · COCINA A LA BRASA',prize:'MENÚ COMPLETO GRATIS',icon:'c',acc:'#f0a23a'},
-  pelu:{brand:'ATELIER 27',tag:'HAIR STUDIO · CORTE & COLOR',prize:'CORTE Y PEINADO GRATIS',icon:'p',acc:'#d4b483'},
-  unas:{brand:'ROSÉ NAILS',tag:'NAIL STUDIO · MANICURA & DISEÑO',prize:'MANICURA SEMIPERMANENTE GRATIS',icon:'u',acc:'#eab4ba'}
+  comida:{brand:'EL PUCHERO',tag:'COMIDA PARA LLEVAR',prize:'RACIÓN DE COMIDA GRATIS',icon:'c',acc:'#e31b23',ink:'#1a0a00',c2:'#ffd400',img:'demos/Pegatina%203D%20de%20raci%C3%B3n%20de%20comida%20gratis.png'},
+  pelu:{brand:'BARBER KING',tag:'BARBERÍA',prize:'CORTE DE PELO GRATIS',icon:'p',acc:'#e10600',ink:'#06060c',c2:'#0b3fbf',img:'demos/Corte%20de%20pelo%20gratis%20en%203D.png'},
+  unas:{brand:'GLAM NAILS',tag:'UÑAS & BELLEZA',prize:'UÑAS GRATIS',icon:'u',acc:'#ff2d95',ink:'#5a0033',c2:'#ffd3ea',img:'demos/Promoci%C3%B3n%20especial%20de%20u%C3%B1as%20gratis.png'}
 };
 var ICON={
-  c:'<path d="M31 47 Q50 24 69 47 Z"/><path d="M28 54 H72"/><path d="M30 60 Q36 56 42 60 T54 60 T66 60 L70 60"/><path d="M31 66 H69 Q69 75 61 75 H39 Q31 75 31 66 Z"/>',
+  c:'<path d="M38 26 V76"/><path d="M31 26 V40 Q31 47 38 47 Q45 47 45 40 V26"/><path d="M62 26 Q52 37 62 49 Q72 37 62 26 Z"/><path d="M62 49 V76"/>',
   p:'<circle cx="37" cy="66" r="7"/><circle cx="63" cy="66" r="7"/><path d="M41 60 L62 27"/><path d="M59 60 L38 27"/>',
-  u:'<path d="M44 26 H56 V44 H44 Z"/><path d="M39 44 H61 V68 Q61 75 54 75 H46 Q39 75 39 68 Z"/><path d="M45 55 H55"/>'
+  u:'<path d="M44 26 H56 V44 H44 Z"/><path d="M39 44 H61 V68 Q61 75 54 75 H46 Q39 75 39 68 Z"/><path d="M45 56 H55"/>'
 };
 var DEMO='';try{DEMO=localStorage.getItem('objetivo_demo')||''}catch(e){}
 var D=DEMOS[DEMO]||null;
 var KEY=D?'objetivo_demo_'+DEMO:'objetivo_v1', TOTAL=D?10:20;
 var L=D?{
-  mine:'MIS SELLOS',gift:'★',plus:'+1',
-  card:function(s){return 'TARJETA DE FIDELIDAD · Nº '+s},
-  ask:'Pide tu sello en cada visita',last:'¡Solo te falta un sello!',first:'10 sellos y el premio es tuyo',
-  left:function(n){return n===1?'Te falta 1 sello para tu premio':'Te faltan '+n+' sellos para tu premio'},
-  prize:function(){return 'Tu premio: <b>'+D.prize+'</b>'},
-  done:function(i){return 'Sello añadido<br>'+(i+1)+' de '+TOTAL},
-  lock:function(n){return 'El siguiente sello es el nº '+n},
-  valid:function(n){return 'VALIDAR EL SELLO Nº '+n},
+  mine:'MIS SELLOS',gift:'🎁',plus:'+1',
+  card:function(s){return 'TARJETA Nº '+s},
+  ask:'👆 ¡PIDE TU SELLO EN CADA VISITA!',last:'🔥 ¡SOLO TE FALTA 1 SELLO!',first:'10 SELLOS = '+D.prize,
+  left:function(n){return n===1?'¡TE FALTA 1 SELLO!':'TE FALTAN '+n+' SELLOS'},
+  prize:function(){return '🎁 TU PREMIO: <b>'+D.prize+'</b> · ¡TOCA EL REGALO! 👀'},
+  done:function(i){return ['¡GENIAL! 💥','¡UNO MÁS! 🔥','¡ASÍ SE HACE! ⭐'][i%3]+'<br>'+(i+1)+' DE '+TOTAL},
+  lock:function(n){return '🔒 EL SIGUIENTE SELLO ES EL Nº '+n},
+  valid:function(n){return '✅ VALIDAR EL SELLO Nº '+n},
   thing:function(n){return 'el <b>sello nº '+n+'</b>'},who:'al personal del establecimiento',okv:'tu sello quedará validado al instante',
-  next:function(s){return 'Nueva tarjeta nº '+s+'<br>¡Gracias por volver!'}
+  next:function(s){return '🚀 ¡TARJETA Nº '+s+'!<br>¡GRACIAS POR VOLVER!'}
 }:{
   mine:'MIS X',gift:'🎁',plus:'+1 X',
   card:function(s){return 'REGALO '+s},
@@ -382,17 +363,16 @@ var L=D?{
   next:function(s){return '🚀 ¡REGALO '+s+'!<br>A POR OTRAS 20 X'}
 };
 function stamp(i,big){var r=big?0:((i*37)%13)-6;
-  return '<svg class="x stp" viewBox="0 0 100 100" style="--r:'+r+'deg;color:'+D.acc+'"><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 4" stroke-linecap="round"/><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">'+ICON[D.icon]+'</g></svg>'}
+  return '<svg class="x stp" viewBox="0 0 100 100" style="--r:'+r+'deg"><circle cx="50" cy="50" r="44" fill="'+D.acc+'" stroke="'+D.ink+'" stroke-width="5"/><circle cx="50" cy="50" r="35" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="2 5" stroke-linecap="round" opacity=".85"/><g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">'+ICON[D.icon]+'</g></svg>'}
 
 var $=function(id){return document.getElementById(id)};
 var st=load();
 if(D){
-  document.body.className='demo demo-'+DEMO;document.body.style.setProperty('--acc',D.acc);document.title=D.brand;
-  var lk=document.createElement('link');lk.rel='stylesheet';lk.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;800&display=swap';document.head.appendChild(lk);
+  document.body.className='demo demo-'+DEMO;document.title=D.brand;
   $('title').firstChild.nodeValue=D.brand;
   var tg=document.createElement('div');tg.className='dtag';tg.textContent=D.tag;$('title').parentNode.insertBefore(tg,$('title').nextSibling);
   document.querySelector('.progTop span').textContent=L.mine;
-  document.querySelector('.wBig').textContent='¡Enhorabuena!';document.querySelector('.wSub').textContent='Has completado tu tarjeta de fidelidad';$('again').textContent='EMPEZAR NUEVA TARJETA';
+  document.querySelector('.wBig').innerHTML='¡PREMIO<br>CONSEGUIDO!';document.querySelector('.wSub').textContent='¡HAS COMPLETADO TU TARJETA! 🏆';$('again').textContent='▶ EMPEZAR OTRA TARJETA';
 }
 
 function load(){
@@ -445,7 +425,7 @@ function tick(){cx.clearRect(0,0,cv.width,cv.height);
   if(P.length||rain)requestAnimationFrame(tick);else run=false}
 
 /* ---------- la X graciosa ---------- */
-if(D)COL=[D.acc,'#ffffff','#f3e3c3',D.acc,'#c9a35f'];
+if(D)COL=[D.acc,'#ffffff',D.c2,'#ffd400',D.acc];
 var XC=['#ff2d55','#ff7a00','#00c2ff','#a04bff','#19d36b','#ff3df0'];
 function xSvg(i){
   if(D)return stamp(i);
@@ -515,9 +495,8 @@ $('grid').addEventListener('click',function(e){
 var peekT=null;
 function peek(t,n){
   if(peekT)return;
-  if(D){nope(t,L.left(TOTAL-n));return}
   var left=TOTAL-n, old=t.innerHTML;
-  nope(t,'🎁 ¡TE '+(left===1?'FALTA 1 X':'FALTAN '+left+' X')+' PARA CONSEGUIRLO!');
+  nope(t,D?L.left(left):'🎁 ¡TE '+(left===1?'FALTA 1 X':'FALTAN '+left+' X')+' PARA CONSEGUIRLO!');
   peekT=setTimeout(function(){
     var g=getGift(st.season);
     t.classList.remove('no','flipA','flipB');void t.offsetWidth;t.classList.add('flipA');tone(300,0,.3,'sine',.2,900);
@@ -556,7 +535,6 @@ function win(){
   var g=getGift(st.season), gb=$('giftBox');
   if(g&&g.img){gb.className='gift pic';gb.innerHTML='<img alt="" src="'+g.img+'">'}else{gb.className='gift';gb.textContent='🎁'}
   $('wPrize').textContent=g&&g.name?g.name.toUpperCase():'¡TU REGALO!';
-  if(D){gb.className='gift pic';gb.innerHTML=stamp(0,1);$('wPrize').textContent=D.prize;setTimeout(function(){$('chest').click()},600);return}
   sRumble();
 }
 $('chest').addEventListener('click',function(){
@@ -698,7 +676,7 @@ function askX(){
 
 function demosView(){
   show('<h2>🎬 DEMOS PARA NEGOCIOS</h2><p>Convierte esta app, <b>solo en este dispositivo</b>, en una tarjeta de fidelidad de 10 sellos para enseñársela a un negocio. Los demás dispositivos siguen viendo el modo de estudiar.</p>'+
-    '<button class="btn" data-d="comida">🍔 COMIDA PARA LLEVAR</button><button class="btn" data-d="pelu">✂️ PELUQUERÍA</button><button class="btn" data-d="unas">💅 TIENDA DE UÑAS</button>'+
+    '<button class="btn" data-d="comida">🍔 COMIDA PARA LLEVAR</button><button class="btn" data-d="pelu">💈 BARBERÍA</button><button class="btn" data-d="unas">💅 TIENDA DE UÑAS</button>'+
     (DEMO?'<button class="btn b3" data-d="">↩️ VOLVER AL MODO NORMAL (ESTUDIAR)</button>':'')+'<button class="btn b2" id="bk">⬅ VOLVER</button>');
   $('bk').onclick=menu;
   var bs=document.querySelectorAll('#card [data-d]');
@@ -717,7 +695,7 @@ function menu(){
     '<button class="btn" id="dm">🎬 DEMOS PARA NEGOCIOS</button>'+
     '<button class="btn b2" id="ak">🔑 AÑADIR OTRA LLAVE</button>'+
     '<button class="btn b2" id="cl">CERRAR</button>');
-  $('cl').onclick=leave;$('dm').onclick=demosView;$('gf').onclick=function(){giftsView();loadGifts().then(function(){if(document.querySelector('.gslots'))giftsView()})};$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
+  $('cl').onclick=leave;$('dm').onclick=demosView;if(D)$('gf').style.display='none';$('gf').onclick=function(){giftsView();loadGifts().then(function(){if(document.querySelector('.gslots'))giftsView()})};$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
   $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(TOTAL-1,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();menu()};
   $('un').onclick=function(){if(!st.marks.length)return;var m=st.marks.pop();if(m!=='extra'){st.last=null;for(var i=st.marks.length-1;i>=0;i--){if(st.marks[i]!=='extra'){st.last=st.marks[i];break}}}save();render();menu()};
   two('t2',function(){st.marks=[];st.last=null});
@@ -728,7 +706,7 @@ function menu(){
 var GIFTS={};
 function loadGifts(){return fetch('regalos.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{}}).then(function(j){j=j||{};for(var k in GIFTS)if(GIFTS[k]&&GIFTS[k].d&&j[k])j[k].d=GIFTS[k].d;GIFTS=j}).catch(function(){})}
 function getGift(n){
-  if(D)return null;
+  if(D)return D.img?{name:D.prize,img:D.img}:null;
   var g=GIFTS[n];return g&&g.f?{name:g.name||'',img:g.d||(g.f+'?v='+g.v)}:null;
 }
 function giftsView(){
