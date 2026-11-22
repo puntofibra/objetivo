@@ -41,7 +41,7 @@ body{position:fixed;inset:0}
 
 /* ---------- LAYOUT ---------- */
 .app{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-  padding:calc(10px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));gap:8px;z-index:2}
+  padding:calc(34px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));gap:8px;z-index:2}
 .side{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px}
 .gridWrap{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
 
@@ -65,7 +65,7 @@ body{position:fixed;inset:0}
 .fill::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.4) 0 10px,transparent 10px 24px);animation:slide 2s linear infinite}
 
 /* ---------- CASILLAS ---------- */
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(6px,1.8vw,12px);width:min(94vw,calc((100vh - 330px) * .8),520px)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(6px,1.8vw,12px);width:min(94vw,calc((100vh - 356px) * .8),520px)}
 .tile{position:relative;aspect-ratio:1;border-radius:14%;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(20,8,70,.7));
   border:3px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;
   font-size:clamp(20px,7vw,38px);color:rgba(255,255,255,.4);box-shadow:inset 0 -6px 0 rgba(0,0,0,.28),0 5px 0 rgba(0,0,0,.3);
@@ -229,6 +229,65 @@ body{position:fixed;inset:0}
 
 .cd{font-size:72px;line-height:1;color:var(--yel);-webkit-text-stroke:3px #1a0850;paint-order:stroke fill;text-shadow:0 5px 0 #1a0850}
 
+/* ---------- DEMOS PARA NEGOCIOS (tarjeta de fidelidad) ---------- */
+.demo{--font:'Inter',system-ui,sans-serif;letter-spacing:0}
+.demo .bg{background:radial-gradient(120% 70% at 50% 0%,#2b2622 0%,#151312 55%,#0b0a0a 100%)}
+.demo-comida .bg{background:radial-gradient(120% 70% at 50% 0%,#3d2613 0%,#1a120c 55%,#0c0806 100%)}
+.demo-unas .bg{background:radial-gradient(120% 70% at 50% 0%,#4d2c38 0%,#24141b 55%,#120a0e 100%)}
+.demo .bg::before{opacity:.22;animation-duration:44s}
+.demo .bg::after{background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 32%,transparent),transparent 70%)}
+.demo .spark{background:var(--acc);box-shadow:0 0 10px 2px var(--acc);width:4px!important;height:4px!important}
+.demo .title{font-family:'Playfair Display',Georgia,serif;font-weight:800;transform:none;-webkit-text-stroke:0;text-shadow:none;letter-spacing:.1em;font-size:clamp(32px,10vw,58px);line-height:1.1;background:linear-gradient(100deg,var(--acc) 25%,#fff 50%,var(--acc) 75%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fade 1.2s both,shine 6s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.dtag{font-size:clamp(9px,2.7vw,12px);letter-spacing:.3em;color:#fff;opacity:.75;text-align:center;animation:fade 1.6s both}
+.demo .season{background:none;border:1px solid var(--acc);color:var(--acc);transform:none;box-shadow:none;letter-spacing:.25em;font-size:11px;padding:6px 16px;border-radius:30px;margin-top:6px}
+.demo .season span{transform:none}
+.demo .progTop{font-size:12px;letter-spacing:.2em;opacity:.9}
+.demo .count{font-family:'Playfair Display',Georgia,serif;-webkit-text-stroke:0;font-size:clamp(26px,8vw,40px)}
+.demo .count b{color:var(--acc);font-weight:800}
+.demo .bar{height:8px;border:0;transform:none;border-radius:8px;background:rgba(255,255,255,.12);box-shadow:none}
+.demo .fill{background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 55%,#000),var(--acc));border-radius:8px}
+.demo .fill::after{display:none}
+.demo .grid{grid-template-columns:repeat(5,1fr);gap:clamp(8px,2.6vw,16px);padding:clamp(14px,4vw,24px);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);border-radius:22px;background:rgba(255,255,255,.04);box-shadow:0 20px 50px rgba(0,0,0,.45);width:min(94vw,560px)}
+.demo .tile{border-radius:50%;background:rgba(255,255,255,.03);border:1.5px dashed color-mix(in srgb,var(--acc) 55%,transparent);box-shadow:none;color:color-mix(in srgb,var(--acc) 65%,transparent);font-family:'Playfair Display',Georgia,serif;font-size:clamp(15px,4.6vw,24px)}
+.demo .tile.done{background:color-mix(in srgb,var(--acc) 12%,transparent);border:0}
+.demo .tile.done .n{display:none}
+.demo .tile.next{background:color-mix(in srgb,var(--acc) 22%,transparent);border:1.5px solid var(--acc);color:#fff}
+.demo .tile.next::before{inset:-6px;border-radius:50%;border:1.5px solid var(--acc)}
+.demo .tile.next .n{-webkit-text-stroke:0;color:#fff}
+.demo .tile .tap{display:none}
+.demo .tile.last{container-type:normal}
+.demo .tile.last:not(.done) .n{font-size:1.5em;color:var(--acc);filter:none;animation:none}
+.x.stp{inset:0;width:100%;height:100%}
+.fresh .x.stp{animation:stampIn .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes stampIn{from{transform:rotate(var(--r,0deg)) scale(2.6);opacity:0}}
+.demo .msg{transform:none;background:rgba(255,255,255,.06);border:1px solid color-mix(in srgb,var(--acc) 55%,transparent);color:#fff;box-shadow:0 14px 40px rgba(0,0,0,.4);border-radius:16px;font-size:clamp(15px,4.4vw,20px);font-weight:600;padding:14px}
+.demo .msg>div{transform:none}
+.demo .msg small{font-weight:400;letter-spacing:.06em;margin-top:5px}
+.demo .prize{font-size:13px;letter-spacing:.08em;text-shadow:none}
+.demo .prize b{color:var(--acc);font-weight:600}
+.demo .inst{font-size:11px;letter-spacing:.1em}
+.demo .toast{transform:translate(-50%,-50%);background:#141210;border:1px solid var(--acc);border-radius:14px;font-size:clamp(15px,4.4vw,20px);font-weight:600;animation:toastD 2.2s ease forwards}
+@keyframes toastD{0%{opacity:0;transform:translate(-50%,-40%)}12%{opacity:1;transform:translate(-50%,-50%)}85%{opacity:1}100%{opacity:0}}
+.demo .shock{border:2px solid var(--acc)}
+.demo .plus{font-family:'Playfair Display',Georgia,serif;-webkit-text-stroke:0;color:var(--acc)}
+.demo .win{background:radial-gradient(circle at 50% 45%,rgba(44,34,24,.96),rgba(6,5,5,.98) 75%)}
+.demo .rays{background:repeating-conic-gradient(color-mix(in srgb,var(--acc) 20%,transparent) 0 6deg,transparent 6deg 18deg)}
+.demo .cLid,.demo .cBody,.demo .wHint{display:none}
+.demo .cGlow{background:radial-gradient(circle,#fff,var(--acc) 30%,transparent 70%);opacity:.45}
+.demo .gift .x{position:static;width:min(44vw,190px);height:min(44vw,190px);display:block}
+.demo .wBig{font-family:'Playfair Display',Georgia,serif;transform:none;-webkit-text-stroke:0;color:var(--acc);text-shadow:none;font-size:clamp(34px,10vw,56px)}
+.demo .wSub{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;text-shadow:none}
+.demo .wPrize{transform:none;background:none;border:1px solid var(--acc);border-radius:40px;font-size:clamp(15px,4.6vw,22px);letter-spacing:.1em;padding:12px 22px;color:#fff;font-weight:600}
+.demo .win .btn,.demo .card .btn{transform:none;background:var(--acc);color:#141210;border:0;border-radius:40px;box-shadow:none;font-size:13px;letter-spacing:.14em;font-weight:600;padding:14px 22px}
+.demo .card{background:linear-gradient(180deg,#1d1916,#0e0c0b);border:1px solid var(--acc);border-radius:20px}
+.demo .card h2{font-family:'Playfair Display',Georgia,serif;color:var(--acc);font-weight:800}
+.demo .card .btn.b2{background:none;border:1px solid rgba(255,255,255,.4);color:#fff}
+.demo .card .btn.b3{background:none;border:1px solid #e06a6a;color:#ffb3b3}
+.demo .cd{font-family:'Playfair Display',Georgia,serif;-webkit-text-stroke:0;color:var(--acc);text-shadow:none}
+.demo .nfc span{border-color:var(--acc)}
+.demo .chip{transform:translateX(-50%);border:1px solid var(--acc);border-radius:30px;font-size:12px;letter-spacing:.08em;background:#141210;font-weight:600}
+
 /* ---------- HORIZONTAL (PC / tablet) ---------- */
 @media (orientation:landscape) and (min-width:700px){
   .app{flex-direction:row;justify-content:center;gap:4vw;padding:20px 4vw}
@@ -286,9 +345,55 @@ body{position:fixed;inset:0}
 <script>
 (function(){
 'use strict';
-var KEY='objetivo_v1', TOTAL=20;
+var DEMOS={
+  comida:{brand:'LA BRASA',tag:'TAKE AWAY · COCINA A LA BRASA',prize:'MENÚ COMPLETO GRATIS',icon:'c',acc:'#f0a23a'},
+  pelu:{brand:'ATELIER 27',tag:'HAIR STUDIO · CORTE & COLOR',prize:'CORTE Y PEINADO GRATIS',icon:'p',acc:'#d4b483'},
+  unas:{brand:'ROSÉ NAILS',tag:'NAIL STUDIO · MANICURA & DISEÑO',prize:'MANICURA SEMIPERMANENTE GRATIS',icon:'u',acc:'#eab4ba'}
+};
+var ICON={
+  c:'<path d="M31 47 Q50 24 69 47 Z"/><path d="M28 54 H72"/><path d="M30 60 Q36 56 42 60 T54 60 T66 60 L70 60"/><path d="M31 66 H69 Q69 75 61 75 H39 Q31 75 31 66 Z"/>',
+  p:'<circle cx="37" cy="66" r="7"/><circle cx="63" cy="66" r="7"/><path d="M41 60 L62 27"/><path d="M59 60 L38 27"/>',
+  u:'<path d="M44 26 H56 V44 H44 Z"/><path d="M39 44 H61 V68 Q61 75 54 75 H46 Q39 75 39 68 Z"/><path d="M45 55 H55"/>'
+};
+var DEMO='';try{DEMO=localStorage.getItem('objetivo_demo')||''}catch(e){}
+var D=DEMOS[DEMO]||null;
+var KEY=D?'objetivo_demo_'+DEMO:'objetivo_v1', TOTAL=D?10:20;
+var L=D?{
+  mine:'MIS SELLOS',gift:'★',plus:'+1',
+  card:function(s){return 'TARJETA DE FIDELIDAD · Nº '+s},
+  ask:'Pide tu sello en cada visita',last:'¡Solo te falta un sello!',first:'10 sellos y el premio es tuyo',
+  left:function(n){return n===1?'Te falta 1 sello para tu premio':'Te faltan '+n+' sellos para tu premio'},
+  prize:function(){return 'Tu premio: <b>'+D.prize+'</b>'},
+  done:function(i){return 'Sello añadido<br>'+(i+1)+' de '+TOTAL},
+  lock:function(n){return 'El siguiente sello es el nº '+n},
+  valid:function(n){return 'VALIDAR EL SELLO Nº '+n},
+  thing:function(n){return 'el <b>sello nº '+n+'</b>'},who:'al personal del establecimiento',okv:'tu sello quedará validado al instante',
+  next:function(s){return 'Nueva tarjeta nº '+s+'<br>¡Gracias por volver!'}
+}:{
+  mine:'MIS X',gift:'🎁',plus:'+1 X',
+  card:function(s){return 'REGALO '+s},
+  ask:'👆 ¿HAS ESTUDIADO? ¡TOCA TU CASILLA!',last:'🔥 ¡ÚLTIMA X! ¡A POR EL REGALO!',first:'20 DÍAS = 1 REGALO',
+  left:function(n){return 'TE FALTAN '+n+' X'},
+  prize:function(s){return '🎁 REGALO Nº '+s+': <b>¡TOCA LA CAJITA PARA VERLO!</b> 👀'},
+  done:function(i){return ['¡BRUTAL! 💥','¡ÉPICO! 🔥','¡MÁQUINA! 💪','¡QUÉ CRACK! ⭐','¡IMPARABLE! 🚀'][i%5]+'<br>'+(i+1)+' DE '+TOTAL},
+  lock:function(n){return '🔒 ¡PRIMERO LA CASILLA '+n+'!'},
+  valid:function(n){return '✖️ VALIDAR LA X Nº '+n},
+  thing:function(n){return 'la <b>X nº '+n+'</b>'},who:'al administrador de la app',okv:'tu X quedará validada al instante',
+  next:function(s){return '🚀 ¡REGALO '+s+'!<br>A POR OTRAS 20 X'}
+};
+function stamp(i,big){var r=big?0:((i*37)%13)-6;
+  return '<svg class="x stp" viewBox="0 0 100 100" style="--r:'+r+'deg;color:'+D.acc+'"><circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 4" stroke-linecap="round"/><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">'+ICON[D.icon]+'</g></svg>'}
+
 var $=function(id){return document.getElementById(id)};
 var st=load();
+if(D){
+  document.body.className='demo demo-'+DEMO;document.body.style.setProperty('--acc',D.acc);document.title=D.brand;
+  var lk=document.createElement('link');lk.rel='stylesheet';lk.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600;800&display=swap';document.head.appendChild(lk);
+  $('title').firstChild.nodeValue=D.brand;
+  var tg=document.createElement('div');tg.className='dtag';tg.textContent=D.tag;$('title').parentNode.insertBefore(tg,$('title').nextSibling);
+  document.querySelector('.progTop span').textContent=L.mine;
+  document.querySelector('.wBig').textContent='¡Enhorabuena!';document.querySelector('.wSub').textContent='Has completado tu tarjeta de fidelidad';$('again').textContent='EMPEZAR NUEVA TARJETA';
+}
 
 function load(){
   var d={season:1,marks:[],last:null,prize:'',wins:[]};
@@ -340,8 +445,10 @@ function tick(){cx.clearRect(0,0,cv.width,cv.height);
   if(P.length||rain)requestAnimationFrame(tick);else run=false}
 
 /* ---------- la X graciosa ---------- */
+if(D)COL=[D.acc,'#ffffff','#f3e3c3',D.acc,'#c9a35f'];
 var XC=['#ff2d55','#ff7a00','#00c2ff','#a04bff','#19d36b','#ff3df0'];
 function xSvg(i){
+  if(D)return stamp(i);
   var c=XC[i%XC.length], r=((i*37)%17)-8, m=i%4, mouth;
   if(m===0) mouth='<path d="M41 60 Q50 70 59 60" fill="none" stroke="#1a0850" stroke-width="3.5" stroke-linecap="round"/>';
   else if(m===1) mouth='<path d="M41 59 Q50 72 59 59 Z" fill="#1a0850"/><path d="M46 64 Q50 73 54 64 Z" fill="#ff5b8a"/>';
@@ -364,17 +471,17 @@ function xSvg(i){
 function render(freshIdx){
   var n=st.marks.length, g=$('grid'), h='', dt=doneToday()&&!adm.x;
   for(var i=0;i<TOTAL;i++){
-    var cls='tile', inner='<span class="n">'+(i===TOTAL-1&&i>=n?'🎁':(i+1))+'</span>';
+    var cls='tile', inner='<span class="n">'+(i===TOTAL-1&&i>=n?L.gift:(i+1))+'</span>';
     if(i===TOTAL-1) cls+=' last';
     if(i<n){cls+=' done'; if(i===freshIdx)cls+=' fresh slam'; inner+=xSvg(i)}
     else if(i===n){ if(dt){cls+=' wait'; inner='<span class="n">⏳</span>'} else {cls+=' next'; inner+='<span class="tap">👆</span>'} }
     h+='<div class="'+cls+'" data-i="'+i+'" style="--i:'+(freshIdx===undefined?i:0)+'">'+inner+'</div>';
   }
   g.innerHTML=h;
-  $('season').textContent='REGALO '+st.season;
+  $('season').textContent=L.card(st.season);
   $('count').innerHTML='<b>'+n+'</b>/'+TOTAL;
   $('fill').style.width=(n/TOTAL*100)+'%';
-  $('prize').innerHTML='🎁 REGALO Nº '+st.season+': <b>¡TOCA LA CAJITA PARA VERLO!</b> 👀';
+  $('prize').innerHTML=L.prize(st.season);
   msg();
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -387,7 +494,7 @@ function msg(){
     $('msgIn').innerHTML='✅ ¡X DE HOY CONSEGUIDA!<small>PRÓXIMA X EN '+t+' · TE FALTAN '+left+'</small>';
   }else{
     m.className='msg';
-    $('msgIn').innerHTML=(n===TOTAL-1?'🔥 ¡ÚLTIMA X! ¡A POR EL REGALO!':'👆 ¿HAS ESTUDIADO? ¡TOCA TU CASILLA!')+'<small>'+(n===0?'20 DÍAS = 1 REGALO':'TE FALTAN '+left+' X')+'</small>';
+    $('msgIn').innerHTML=(n===TOTAL-1?L.last:L.ask)+'<small>'+(n===0?L.first:L.left(left))+'</small>';
   }
 }
 var lastDay=today();
@@ -400,7 +507,7 @@ $('grid').addEventListener('click',function(e){
   var t=e.target.closest('.tile'); if(!t||busy)return; ac();
   var i=+t.getAttribute('data-i'), n=st.marks.length;
   if(i<n){ t.classList.remove('slam');void t.offsetWidth;t.classList.add('slam'); tone(500+i*40,0,.08,'square',.1); return }
-  if(i>n){ if(i===TOTAL-1) peek(t,n); else nope(t,'🔒 ¡PRIMERO LA CASILLA '+(n+1)+'!'); return }
+  if(i>n){ if(i===TOTAL-1) peek(t,n); else nope(t,L.lock(n+1)); return }
   if(adm.x){ mark(true); return }
   if(doneToday()){ nope(t,'⏳ ¡HOY YA TIENES TU X!<br>VUELVE MAÑANA'); return }
   askX();
@@ -408,6 +515,7 @@ $('grid').addEventListener('click',function(e){
 var peekT=null;
 function peek(t,n){
   if(peekT)return;
+  if(D){nope(t,L.left(TOTAL-n));return}
   var left=TOTAL-n, old=t.innerHTML;
   nope(t,'🎁 ¡TE '+(left===1?'FALTA 1 X':'FALTAN '+left+' X')+' PARA CONSEGUIRLO!');
   peekT=setTimeout(function(){
@@ -430,7 +538,7 @@ function mark(extra){
   sMark(); if(navigator.vibrate)navigator.vibrate([40,60,40,60,120]);
   setTimeout(function(){
     var sh=document.createElement('div');sh.className='shock';t.appendChild(sh);
-    var pl=document.createElement('div');pl.className='plus';pl.textContent='+1 X';t.appendChild(pl);
+    var pl=document.createElement('div');pl.className='plus';pl.textContent=L.plus;t.appendChild(pl);
     burst(x,y,46,11,false);
     var f=$('flash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on');
     var a=$('app');a.classList.remove('shake');void a.offsetWidth;a.classList.add('shake');
@@ -438,7 +546,7 @@ function mark(extra){
   },fast?100:400);
   setTimeout(function(){
     busy=false;
-    if(st.marks.length>=TOTAL){xEnd(true);win()} else if(!fast) toast(['¡BRUTAL! 💥','¡ÉPICO! 🔥','¡MÁQUINA! 💪','¡QUÉ CRACK! ⭐','¡IMPARABLE! 🚀'][i%5]+'<br>'+(i+1)+' DE 20');
+    if(st.marks.length>=TOTAL){xEnd(true);win()} else if(!fast) toast(L.done(i));
   },fast?350:1300);
 }
 
@@ -448,6 +556,7 @@ function win(){
   var g=getGift(st.season), gb=$('giftBox');
   if(g&&g.img){gb.className='gift pic';gb.innerHTML='<img alt="" src="'+g.img+'">'}else{gb.className='gift';gb.textContent='🎁'}
   $('wPrize').textContent=g&&g.name?g.name.toUpperCase():'¡TU REGALO!';
+  if(D){gb.className='gift pic';gb.innerHTML=stamp(0,1);$('wPrize').textContent=D.prize;setTimeout(function(){$('chest').click()},600);return}
   sRumble();
 }
 $('chest').addEventListener('click',function(){
@@ -460,7 +569,7 @@ $('chest').addEventListener('click',function(){
 $('again').addEventListener('click',function(){
   st.wins.push({season:st.season,date:today(),prize:st.prize}); st.season++; st.marks=[]; save();
   rain=false; $('win').classList.remove('on','open'); render(); tone(523,0,.1);tone(784,.1,.2);
-  toast('🚀 ¡REGALO '+st.season+'!<br>A POR OTRAS 20 X');
+  toast(L.next(st.season));
 });
 
 /* ---------- modo admin: 10 toques en el titulo + llave NFC ---------- */
@@ -565,7 +674,7 @@ function askX(){
     bye();mark(false);
   };
   if('NDEFReader' in window){
-    show('<h2>✖️ VALIDAR LA X Nº '+num+'</h2><div class="nfc" id="nfc"><span></span><span></span><span></span><i>📶</i></div><div class="cd" id="cd">5</div><p id="kst">Activando el lector…</p><p>El administrador tiene <b>5 segundos</b> para pasar su llave.</p><button class="btn b2" id="cl">CANCELAR</button>');
+    show('<h2>'+L.valid(num)+'</h2><div class="nfc" id="nfc"><span></span><span></span><span></span><i>📶</i></div><div class="cd" id="cd">5</div><p id="kst">Activando el lector…</p><p>El administrador tiene <b>5 segundos</b> para pasar su llave.</p><button class="btn b2" id="cl">CANCELAR</button>');
     $('cl').onclick=bye;
     scan(ok,function(){
       var ks=$('kst');if(ks)ks.textContent='Acerca ahora la llave del administrador a la parte de atrás del móvil.';
@@ -574,12 +683,20 @@ function askX(){
         if(s<=0){bye();sNo();toast('⏱ TIEMPO AGOTADO<br>TOCA LA CASILLA OTRA VEZ')}},100);
     });
   }else{
-    show('<h2>🔐 VALIDACIÓN DEL ADMINISTRADOR</h2><p>Para conseguir la <b>X nº '+num+'</b>, enséñale este código al administrador de la app.</p><div class="qr" id="qr"><div class="spin"></div></div><p id="kst">Preparando el código…</p><p>Cuando lo escanee con su móvil y pase su llave, <b>tu X quedará validada al instante</b>.</p><button class="btn b2" id="cl">CANCELAR</button>');
+    show('<h2>🔐 VALIDACIÓN DEL ADMINISTRADOR</h2><p>Para conseguir '+L.thing(num)+', enséñale este código '+L.who+'.</p><div class="qr" id="qr"><div class="spin"></div></div><p id="kst">Preparando el código…</p><p>Cuando lo escanee con su móvil y pase su llave, <b>'+L.okv+'</b>.</p><button class="btn b2" id="cl">CANCELAR</button>');
     $('cl').onclick=bye;
     link(ok,'Esperando la validación del administrador…');
   }
 }
 
+function demosView(){
+  show('<h2>🎬 DEMOS PARA NEGOCIOS</h2><p>Convierte esta app, <b>solo en este dispositivo</b>, en una tarjeta de fidelidad de 10 sellos para enseñársela a un negocio. Los demás dispositivos siguen viendo el modo de estudiar.</p>'+
+    '<button class="btn" data-d="comida">🍔 COMIDA PARA LLEVAR</button><button class="btn" data-d="pelu">✂️ PELUQUERÍA</button><button class="btn" data-d="unas">💅 TIENDA DE UÑAS</button>'+
+    (DEMO?'<button class="btn b3" data-d="">↩️ VOLVER AL MODO NORMAL (ESTUDIAR)</button>':'')+'<button class="btn b2" id="bk">⬅ VOLVER</button>');
+  $('bk').onclick=menu;
+  var bs=document.querySelectorAll('#card [data-d]');
+  for(var j=0;j<bs.length;j++)bs[j].onclick=function(){var d=this.getAttribute('data-d');if(d)localStorage.setItem('objetivo_demo',d);else localStorage.removeItem('objetivo_demo');location.reload()};
+}
 function two(id,fn){var arm=false;$(id).onclick=function(){if(!arm){arm=true;this.textContent='⚠️ ¿SEGURO? PULSA OTRA VEZ';return}fn();save();render();menu()}}
 function menu(){
   var n=st.marks.length, c=0;for(var i=1;i<=20;i++)if(getGift(i))c++;
@@ -590,17 +707,25 @@ function menu(){
     '<button class="btn b2" id="un">↩️ QUITAR LA ÚLTIMA X</button>'+
     '<button class="btn b3" id="t2">🗑️ BORRAR TODAS LAS X</button>'+
     '<button class="btn b3" id="t3">💥 BORRAR X Y VOLVER AL REGALO 1</button>'+
+    '<button class="btn" id="dm">🎬 DEMOS PARA NEGOCIOS</button>'+
     '<button class="btn b2" id="ak">🔑 AÑADIR OTRA LLAVE</button>'+
     '<button class="btn b2" id="cl">CERRAR</button>');
-  $('cl').onclick=leave;$('gf').onclick=giftsView;$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
-  $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(19,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();menu()};
+  $('cl').onclick=leave;$('dm').onclick=demosView;$('gf').onclick=giftsView;$('px').onclick=xStart;$('ak').onclick=function(){askKey('add')};
+  $('sn').onclick=function(){var v=parseInt($('nx').value,10);if(isNaN(v))return;v=Math.max(0,Math.min(TOTAL-1,v));var m=[];for(var i=0;i<v;i++)m.push(st.marks[i]||'extra');st.marks=m;save();render();menu()};
   $('un').onclick=function(){if(!st.marks.length)return;var m=st.marks.pop();if(m!=='extra'){st.last=null;for(var i=st.marks.length-1;i>=0;i--){if(st.marks[i]!=='extra'){st.last=st.marks[i];break}}}save();render();menu()};
   two('t2',function(){st.marks=[];st.last=null});
   two('t3',function(){st.marks=[];st.last=null;st.season=1;st.wins=[]});
 }
 
 /* ---------- los 20 regalos ocultos ---------- */
-function getGift(n){try{return JSON.parse(localStorage.getItem('objetivo_gift_'+n)||'null')}catch(e){return null}}
+var GIFTS={};
+function loadGifts(){return fetch('regalos.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():{}}).then(function(j){GIFTS=j||{}}).catch(function(){})}
+function getGift(n){
+  if(D)return null;
+  var l=null;try{l=JSON.parse(localStorage.getItem('objetivo_gift_'+n)||'null')}catch(e){}
+  if(l&&l.img)return l;
+  var g=GIFTS[n];return g&&g.f?{name:g.name||'',img:g.f+'?v='+g.v}:null;
+}
 function giftsView(){
   var h='<h2>🎁 LOS 20 REGALOS OCULTOS</h2><p>Toca un número para ponerle su regalo. Nadie los ve hasta que se abre el cofre de ese regalo.</p><div class="gslots">';
   for(var i=1;i<=20;i++){var g=getGift(i);h+='<button class="gslot'+(i===st.season?' cur':'')+(g?' ok':'')+'" data-n="'+i+'">'+(g&&g.img?'<img alt="" src="'+g.img+'">':'')+'<b>'+i+'</b></button>'}
@@ -651,6 +776,7 @@ function giftEdit(n){
 }
 var LL=(location.search.match(/[?&]llave=([0-9a-f]{24})/)||[])[1];
 if(LL)setTimeout(function(){reader(LL)},0);
+loadGifts();
 
 /* ---------- instalar (PWA) ---------- */
 var dp=null, inst=$('inst');
